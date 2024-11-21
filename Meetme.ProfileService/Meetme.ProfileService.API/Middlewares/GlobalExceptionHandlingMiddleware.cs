@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Meetme.ProfileService.API.Errors;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
@@ -12,15 +13,15 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 		{
 			await next(context);
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
 			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-			ProblemDetails errorDetails = new()
+			var errorDetails = new ErrorDetails
 			{
-				Status = (int)HttpStatusCode.InternalServerError,
-				Title = "Server error",
-				Detail = "An internal server error occured"
+				StatusCode = HttpStatusCode.InternalServerError,
+				ErrorTitle = "Server error",
+				ErrorMessage = ex.Message
 			};
 
 			var responseJson = JsonSerializer.Serialize(errorDetails);
