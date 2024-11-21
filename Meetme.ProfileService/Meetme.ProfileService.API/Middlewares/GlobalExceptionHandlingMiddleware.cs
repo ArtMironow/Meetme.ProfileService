@@ -16,16 +16,16 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 		{
 			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-			ProblemDetails problem = new()
+			ProblemDetails errorDetails = new()
 			{
 				Status = (int)HttpStatusCode.InternalServerError,
 				Title = "Server error",
 				Detail = "An internal server error occured"
 			};
 
-			string json = JsonSerializer.Serialize(problem);
+			var responseJson = JsonSerializer.Serialize(errorDetails);
 
-			await context.Response.WriteAsJsonAsync(json);
+			await context.Response.WriteAsJsonAsync(responseJson);
 		}
 	}
 }
