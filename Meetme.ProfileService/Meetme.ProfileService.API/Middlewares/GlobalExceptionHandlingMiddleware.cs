@@ -1,5 +1,4 @@
 ﻿using Meetme.ProfileService.API.Errors;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
@@ -19,7 +18,6 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 
 			var errorDetails = new ErrorDetails
 			{
-				StatusCode = HttpStatusCode.InternalServerError,
 				ErrorTitle = "Server error",
 				ErrorMessage = ex.Message
 			};
