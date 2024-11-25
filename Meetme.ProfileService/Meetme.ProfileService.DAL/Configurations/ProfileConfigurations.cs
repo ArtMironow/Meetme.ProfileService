@@ -9,8 +9,6 @@ public class ProfileConfigurations : IEntityTypeConfiguration<Profile>
 {
 	public void Configure(EntityTypeBuilder<Profile> builder)
 	{
-		builder.Property(p => p.Id).ValueGeneratedNever();
-
 		builder.Property(p =>p.Name).HasMaxLength(100);
 		builder.Property(p => p.Bio).HasMaxLength(500);
 

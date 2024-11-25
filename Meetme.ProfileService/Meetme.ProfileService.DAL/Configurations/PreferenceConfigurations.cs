@@ -9,8 +9,6 @@ public class PreferenceConfigurations : IEntityTypeConfiguration<Preference>
 {
 	public void Configure(EntityTypeBuilder<Preference> builder)
 	{
-		builder.Property(x => x.Id).ValueGeneratedNever();
-
 		builder.Property(x => x.GenderPreference)
 			   .HasConversion(
 					g => g.ToString(),

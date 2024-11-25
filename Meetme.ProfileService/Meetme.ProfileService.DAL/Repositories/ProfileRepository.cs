@@ -11,17 +11,17 @@ public class ProfileRepository : Repository<Profile>, IProfileRepository
 	{
 	}
 
-	public async Task<Profile?> GetByIdAsync(Guid profileId, CancellationToken cancellationToken)
+	public override async Task<Profile?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
 		var profile = await DbContext.Profiles
 			.Include(p => p.Preference)
 			.Include(p => p.Photos)
-			.SingleOrDefaultAsync(p => p.Id == profileId, cancellationToken);
+			.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
 
 		return profile;
 	}
 
-	public async Task<IEnumerable<Profile>> GetAllAsync(CancellationToken cancellationToken)
+	public override async Task<IEnumerable<Profile>> GetAllAsync(CancellationToken cancellationToken)
 	{
 		return await DbContext.Profiles
 			.Include(p => p.Preference)

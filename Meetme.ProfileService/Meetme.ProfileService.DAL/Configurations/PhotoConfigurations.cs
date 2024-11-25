@@ -8,10 +8,6 @@ public class PhotoConfigurations : IEntityTypeConfiguration<Photo>
 {
 	public void Configure(EntityTypeBuilder<Photo> builder)
 	{
-		builder.HasKey(x => x.Id);
-
-		builder.Property(x => x.Id).ValueGeneratedNever();
-
 		builder.HasOne(p => p.Profile)
 			   .WithMany(p => p.Photos)
 			   .HasForeignKey(p => p.ProfileId);

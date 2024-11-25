@@ -1,6 +1,7 @@
 ﻿using Meetme.ProfileService.DAL.Data;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
@@ -13,9 +14,14 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 		DbContext = dbContext;
 	}
 
-	public async Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
+	public virtual async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
 		return await DbContext.Set<TEntity>().FindAsync(id, cancellationToken);
+	}
+
+	public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+	{
+		return await DbContext.Set<TEntity>().ToListAsync(cancellationToken);
 	}
 
 	public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
