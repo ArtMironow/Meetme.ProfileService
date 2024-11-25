@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using Meetme.ProfileService.DAL.Repositories;
 using Meetme.ProfileService.DAL.Data;
-using Meetme.ProfileService.DAL.Common.ConnectionStrings;
+using Meetme.ProfileService.DAL.Common.ConfigurationKeys;
 
 namespace Meetme.ProfileService.DAL;
 
@@ -16,7 +16,7 @@ public static class DependencyInjection
 
 		services.AddDbContext<ApplicationDbContext>(
 			(sp, options) => options
-				.UseNpgsql(configuration.GetConnectionString(ConnectionStringsKeys.DefaultConnection))
+				.UseNpgsql(configuration.GetConnectionString(ConfigurationKeys.ConnectionString))
 				.AddInterceptors(sp.GetRequiredService<TimestampInterceptor>()));
 
 		services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
