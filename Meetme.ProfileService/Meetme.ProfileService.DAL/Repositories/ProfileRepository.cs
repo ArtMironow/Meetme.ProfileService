@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
-public class ProfileRepository : Repository<Profile>, IProfileRepository
+public class ProfileRepository : Repository<ProfileEntity>, IProfileRepository
 {
 	public ProfileRepository(ApplicationDbContext context) : base(context)
 	{
 	}
 
-	public override async Task<Profile?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+	public override async Task<ProfileEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
 		var profile = await DbContext.Profiles
 			.Include(p => p.Preference)
@@ -21,7 +21,7 @@ public class ProfileRepository : Repository<Profile>, IProfileRepository
 		return profile;
 	}
 
-	public override async Task<IEnumerable<Profile>> GetAllAsync(CancellationToken cancellationToken)
+	public override async Task<IEnumerable<ProfileEntity>> GetAllAsync(CancellationToken cancellationToken)
 	{
 		return await DbContext.Profiles
 			.Include(p => p.Preference)
