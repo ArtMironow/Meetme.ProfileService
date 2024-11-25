@@ -10,11 +10,4 @@ public class ApplicationDbContext : DbContext
 	public DbSet<Profile> Profiles { get; set; } = null!;
 	public DbSet<Preference> Preferences { get; set; } = null!;
 	public DbSet<Photo> Photos { get; set; } = null!;
-
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
-	{
-		modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
-		base.OnModelCreating(modelBuilder);
-	}
 }

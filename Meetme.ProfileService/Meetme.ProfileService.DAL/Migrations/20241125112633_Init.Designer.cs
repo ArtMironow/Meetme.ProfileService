@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Meetme.ProfileService.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241125094622_Initial")]
-    partial class Initial
+    [Migration("20241125112633_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,22 +28,23 @@ namespace Meetme.ProfileService.DAL.Migrations
             modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Photo", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsProfilePicture")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<string>("PhotoUrl")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("UploadedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -56,6 +57,7 @@ namespace Meetme.ProfileService.DAL.Migrations
             modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Preference", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -64,10 +66,8 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.Property<int>("DistanceRadius")
                         .HasColumnType("integer");
 
-                    b.Property<string>("GenderPreference")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                    b.Property<int>("GenderPreference")
+                        .HasColumnType("integer");
 
                     b.Property<int>("MaxAge")
                         .HasColumnType("integer");
@@ -92,6 +92,7 @@ namespace Meetme.ProfileService.DAL.Migrations
             modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Profile", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int>("Age")
@@ -99,29 +100,24 @@ namespace Meetme.ProfileService.DAL.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("IdentityId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
