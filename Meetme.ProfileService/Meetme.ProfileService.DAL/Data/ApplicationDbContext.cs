@@ -7,7 +7,7 @@ public class ApplicationDbContext : DbContext
 {
 	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-	public DbSet<Profile> Profiles { get; set; } = null!;
-	public DbSet<Preference> Preferences { get; set; } = null!;
-	public DbSet<Photo> Photos { get; set; } = null!;
+	public DbSet<Profile> Profiles { get; set; }
+	public DbSet<Preference> Preferences { get; set; }
+	public DbSet<Photo> Photos { get; set; }
 }

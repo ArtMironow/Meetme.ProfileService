@@ -15,9 +15,9 @@ public static class DependencyInjection
 		services.AddScoped<TimestampInterceptor>();
 
 		services.AddDbContext<ApplicationDbContext>(
-			(sp, options) => options
+			options => options
 				.UseNpgsql(configuration.GetConnectionString(ConfigurationKeys.ConnectionString))
-				.AddInterceptors(sp.GetRequiredService<TimestampInterceptor>()));
+				.AddInterceptors(new TimestampInterceptor()));
 
 		services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
