@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.API", "Meetme.ProfileService.API\Meetme.ProfileService.API.csproj", "{B6A22C37-F785-4399-89C8-1047B80B5080}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.DAL", "Meetme.ProfileService.DAL\Meetme.ProfileService.DAL.csproj", "{885161E1-524B-47E9-9E20-C45EC8F0EEBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B6A22C37-F785-4399-89C8-1047B80B5080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6A22C37-F785-4399-89C8-1047B80B5080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6A22C37-F785-4399-89C8-1047B80B5080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
