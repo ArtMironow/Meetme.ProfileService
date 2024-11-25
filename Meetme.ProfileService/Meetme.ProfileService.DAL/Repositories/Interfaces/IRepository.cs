@@ -2,9 +2,9 @@
 
 namespace Meetme.ProfileService.DAL.Repositories.Interfaces;
 
-internal interface IRepository<TEntity> where TEntity : BaseEntity
+public interface IRepository<TEntity> where TEntity : BaseEntity
 {
-	Task AddAsync(TEntity entity);
-	Task RemoveAsync(TEntity entity);
-	Task UpdateAsync(TEntity entity);
+	Task AddAsync(TEntity entity, CancellationToken cancellationToken);
+	Task RemoveAsync(TEntity entity, CancellationToken cancellationToken);
+	Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 }

@@ -1,10 +1,9 @@
 ﻿using Meetme.ProfileService.DAL.Entities;
 
-namespace Meetme.ProfileService.DAL.Repositories.Interfaces
+namespace Meetme.ProfileService.DAL.Repositories.Interfaces;
+
+public interface IProfileRepository
 {
-	internal interface IProfileRepository
-	{
-		Task<IEnumerable<Profile>> GetAllAsync();
-		Task<Profile?> GetByIdAsync(Guid profileId);
-	}
+	Task<IEnumerable<Profile>> GetAllAsync(CancellationToken cancellationToken);
+	Task<Profile?> GetByIdAsync(Guid profileId, CancellationToken cancellationToken);
 }

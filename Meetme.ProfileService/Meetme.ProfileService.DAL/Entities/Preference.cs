@@ -14,12 +14,4 @@ public class Preference : BaseEntity, ITimestamped
 	public DateTime UpdatedAt { get; set; }
 	public Profile Profile { get; set; }
 
-	public Preference(Guid id, Guid profileId, int minAge, int maxAge, Gender genderPreference, int distanceRadius) : base(id)
-	{
-		ProfileId = profileId;
-		MinAge = minAge;
-		MaxAge = maxAge;
-		GenderPreference = genderPreference;
-		DistanceRadius = distanceRadius;
-	}
 }

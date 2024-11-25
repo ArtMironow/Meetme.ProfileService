@@ -12,11 +12,6 @@ public class PhotoConfigurations : IEntityTypeConfiguration<Photo>
 
 		builder.Property(x => x.Id).ValueGeneratedNever();
 
-		builder.Property(p => p.PhotoUrl).HasMaxLength(500);
-
-		builder.Property(p => p.IsProfilePicture)
-			   .HasDefaultValue(false);
-
 		builder.HasOne(p => p.Profile)
 			   .WithMany(p => p.Photos)
 			   .HasForeignKey(p => p.ProfileId);

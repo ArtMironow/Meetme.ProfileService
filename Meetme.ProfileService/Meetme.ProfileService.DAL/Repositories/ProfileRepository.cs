@@ -5,21 +5,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
-internal class ProfileRepository : Repository<Profile>, IProfileRepository
+public class ProfileRepository : Repository<Profile>, IProfileRepository
 {
 	public ProfileRepository(ApplicationDbContext context) : base(context)
 	{
 	}
 
-	public async Task<Profile?> GetByIdAsync(Guid profileId)
+	public async Task<Profile?> GetByIdAsync(Guid profileId, CancellationToken cancellationToken)
 	{
-		var profile = await DbContext.Profiles.Include(p => p.Preference).Include(p => p.Photos).SingleOrDefaultAsync(p => p.Id == profileId);
+		var profile = await DbContext.Profiles
+			.Include(p => p.Preference)
+			.Include(p => p.Photos)
+			.SingleOrDefaultAsync(p => p.Id == profileId, cancellationToken);
 
 		return profile;
 	}
 
-	public async Task<IEnumerable<Profile>> GetAllAsync()
+	public async Task<IEnumerable<Profile>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		return await DbContext.Profiles.Include(p => p.Preference).Include(p => p.Photos).ToListAsync();
+		return await DbContext.Profiles
+			.Include(p => p.Preference)
+			.Include(p => p.Photos)
+			.ToListAsync(cancellationToken);
 	}
 }

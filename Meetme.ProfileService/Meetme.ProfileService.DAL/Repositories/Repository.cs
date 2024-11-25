@@ -4,7 +4,7 @@ using Meetme.ProfileService.DAL.Repositories.Interfaces;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
-internal class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
 	protected readonly ApplicationDbContext DbContext;
 
@@ -13,21 +13,26 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEn
 		DbContext = dbContext;
 	}
 
-	public async Task AddAsync(TEntity entity)
+	public async Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
 	{
-		await DbContext.Set<TEntity>().AddAsync(entity);
-		await DbContext.SaveChangesAsync();
+		return await DbContext.Set<TEntity>().FindAsync(id, cancellationToken);
 	}
 
-	public async Task UpdateAsync(TEntity entity)
+	public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
+	{
+		await DbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
+		await DbContext.SaveChangesAsync(cancellationToken);
+	}
+
+	public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
 	{
 		DbContext.Set<TEntity>().Update(entity);
-		await DbContext.SaveChangesAsync();
+		await DbContext.SaveChangesAsync(cancellationToken);
 	}
 
-	public async Task RemoveAsync(TEntity entity)
+	public async Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
 	{
 		DbContext.Set<TEntity>().Remove(entity);
-		await DbContext.SaveChangesAsync();
+		await DbContext.SaveChangesAsync(cancellationToken);
 	}
 }

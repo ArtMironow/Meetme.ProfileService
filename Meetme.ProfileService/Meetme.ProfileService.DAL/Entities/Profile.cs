@@ -16,13 +16,4 @@ public class Profile : BaseEntity, ITimestamped
 	public Preference Preference { get; set; }
 	public ICollection<Photo>? Photos { get; set; }
 
-	public Profile(Guid id, Guid identityId, string name, int age, string bio, Gender gender, string location) : base(id)
-	{
-		IdentityId = identityId;
-		Name = name;
-		Age = age;
-		Bio = bio;
-		Gender = gender;
-		Location = location;
-	}
 }
