@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
-public class ProfileRepository : Repository<ProfileEntity>, IProfileRepository
+public class ProfileRepository : Repository<ProfileEntity>, IRepository<ProfileEntity>
 {
 	public ProfileRepository(ApplicationDbContext context) : base(context)
 	{

@@ -9,7 +9,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 {
 	protected readonly ApplicationDbContext DbContext;
 
-	protected Repository(ApplicationDbContext dbContext)
+	public Repository(ApplicationDbContext dbContext)
 	{
 		DbContext = dbContext;
 	}

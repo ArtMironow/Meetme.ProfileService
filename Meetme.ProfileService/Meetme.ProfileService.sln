@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.API",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.DAL", "Meetme.ProfileService.DAL\Meetme.ProfileService.DAL.csproj", "{885161E1-524B-47E9-9E20-C45EC8F0EEBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.BLL", "Meetme.ProfileService.BLL\Meetme.ProfileService.BLL.csproj", "{D8FB5D00-2CB7-4F3C-A31A-6F068BB9701B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{885161E1-524B-47E9-9E20-C45EC8F0EEBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8FB5D00-2CB7-4F3C-A31A-6F068BB9701B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8FB5D00-2CB7-4F3C-A31A-6F068BB9701B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8FB5D00-2CB7-4F3C-A31A-6F068BB9701B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8FB5D00-2CB7-4F3C-A31A-6F068BB9701B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

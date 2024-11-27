@@ -5,6 +5,7 @@ using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using Meetme.ProfileService.DAL.Repositories;
 using Meetme.ProfileService.DAL.Data;
 using Meetme.ProfileService.DAL.Common.ConfigurationKeys;
+using Meetme.ProfileService.DAL.Entities;
 
 namespace Meetme.ProfileService.DAL;
 
@@ -21,7 +22,7 @@ public static class DependencyInjection
 
 		services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-		services.AddScoped<IProfileRepository, ProfileRepository>();
+		services.AddScoped<IRepository<ProfileEntity>, ProfileRepository>();
 
 		return services;
 	}
