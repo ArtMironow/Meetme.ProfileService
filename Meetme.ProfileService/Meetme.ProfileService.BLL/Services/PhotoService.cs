@@ -2,12 +2,13 @@
 using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models;
+using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 
 namespace Meetme.ProfileService.BLL.Services;
 
-public class PhotoService : ICrud<PhotoModel>
+public class PhotoService : IServiceOperations<PhotoModel, CreatePhotoModel, UpdatePhotoModel>
 {
 	private readonly IRepository<PhotoEntity> _repository;
 	private readonly IMapper _mapper;
@@ -18,7 +19,7 @@ public class PhotoService : ICrud<PhotoModel>
 		_mapper = mapper;
 	}
 
-	public async Task AddAsync(PhotoModel model, CancellationToken cancellationToken)
+	public async Task AddAsync(CreatePhotoModel model, CancellationToken cancellationToken)
 	{
 		var photo = _mapper.Map<PhotoEntity>(model);
 
@@ -31,7 +32,7 @@ public class PhotoService : ICrud<PhotoModel>
 
 		if (photo == null)
 		{
-			throw new ProfileServiceException("Photo with this id does not exist");
+			throw new BusinessLogicException("Photo with this id does not exist");
 		}
 
 		await _repository.RemoveAsync(photo, cancellationToken);
@@ -41,13 +42,7 @@ public class PhotoService : ICrud<PhotoModel>
 	{
 		var photos = await _repository.GetAllAsync(cancellationToken);
 
-		var listOfPhotos = new List<PhotoModel>();
-
-		foreach (var photo in photos)
-		{
-			var photoModel = _mapper.Map<PhotoModel>(photo);
-			listOfPhotos.Add(photoModel);
-		}
+		var listOfPhotos = _mapper.Map<IEnumerable<PhotoModel>>(photos);
 
 		return listOfPhotos;
 	}
@@ -58,7 +53,7 @@ public class PhotoService : ICrud<PhotoModel>
 
 		if (photo == null)
 		{
-			throw new ProfileServiceException("Photo with this id does not exist");
+			throw new BusinessLogicException("Photo with this id does not exist");
 		}
 
 		var photoModel = _mapper.Map<PhotoModel>(photo);
@@ -66,9 +61,16 @@ public class PhotoService : ICrud<PhotoModel>
 		return photoModel;
 	}
 
-	public async Task UpdateAsync(PhotoModel model, CancellationToken cancellationToken)
+	public async Task UpdateAsync(Guid id, UpdatePhotoModel model, CancellationToken cancellationToken)
 	{
-		var photo = _mapper.Map<PhotoEntity>(model);
+		var photo = await _repository.GetByIdAsync(id, cancellationToken);
+
+		if (photo == null)
+		{
+			throw new BusinessLogicException("Photo does not exist");
+		}
+
+		photo.IsProfilePicture = model.IsProfilePicture;
 
 		await _repository.UpdateAsync(photo, cancellationToken);
 	}

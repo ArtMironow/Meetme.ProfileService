@@ -3,7 +3,12 @@ using Mapster;
 using MapsterMapper;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models;
+using Meetme.ProfileService.BLL.Models.PhotoModels;
+using Meetme.ProfileService.BLL.Models.PreferenceModels;
+using Meetme.ProfileService.BLL.Models.ProfileModels;
 using Meetme.ProfileService.BLL.Services;
+using Meetme.ProfileService.DAL;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -11,13 +16,15 @@ namespace Meetme.ProfileService.BLL;
 
 public static class DependencyInjection
 {
-	public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services)
+	public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services, IConfiguration configuration)
 	{
+		services.AddDataAccessLayer(configuration);
+
 		services.AddMappings();
 
-		services.AddScoped<ICrud<ProfileModel>, Services.ProfileService>();
-		services.AddScoped<ICrud<PreferenceModel>, PreferenceService>();
-		services.AddScoped<ICrud<PhotoModel>, PhotoService>();
+		services.AddScoped<IServiceOperations<ProfileModel, CreateProfileModel, UpdateProfileModel>, Services.ProfileService>();
+		services.AddScoped<IServiceOperations<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>, PreferenceService>();
+		services.AddScoped<IServiceOperations<PhotoModel, CreatePhotoModel, UpdatePhotoModel>, PhotoService>();
 
 		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

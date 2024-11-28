@@ -1,6 +1,4 @@
-﻿using Meetme.ProfileService.DAL.Entities.Enums;
-
-namespace Meetme.ProfileService.BLL.Models;
+﻿namespace Meetme.ProfileService.BLL.Models.PreferenceModels;
 
 public class PreferenceModel
 {
@@ -12,5 +10,4 @@ public class PreferenceModel
 	public int DistanceRadius { get; set; }
 	public DateTime CreatedAt { get; set; }
 	public DateTime UpdatedAt { get; set; }
-	public ProfileModel? Profile { get; set; }
 }

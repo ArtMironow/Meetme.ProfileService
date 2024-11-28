@@ -1,6 +1,5 @@
 using Meetme.ProfileService.API.Middlewares;
 using Meetme.ProfileService.BLL;
-using Meetme.ProfileService.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDataAccessLayer(builder.Configuration);
-builder.Services.AddBusinessLogicLayer();
+builder.Services.AddBusinessLogicLayer(builder.Configuration);
 
 builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
