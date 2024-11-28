@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Meetme.ProfileService.DAL\Meetme.ProfileService.DAL.csproj" />
+    <ProjectReference Include="..\Meetme.ProfileService.BLL\Meetme.ProfileService.BLL.csproj" />
   </ItemGroup>
 
 </Project>
