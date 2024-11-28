@@ -22,7 +22,9 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 	{
 		var profile = _mapper.Map<ProfileEntity>(model);
 
-		if (await _repository.GetFirstOrDefaultAsync(p => p.IdentityId == profile.IdentityId, cancellationToken) != null)
+		var identityProfile = await _repository.GetFirstOrDefaultAsync(p => p.IdentityId == profile.IdentityId, cancellationToken);
+
+		if (identityProfile != null)
 		{
 			throw new BusinessLogicException("Profile for this identity already exists");
 		}
