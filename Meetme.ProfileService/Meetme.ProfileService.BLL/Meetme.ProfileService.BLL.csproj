@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Validation\PhotoModelValidators\PhotoModelValidationMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PhotoModelValidationMessages.resx</DependentUpon>
+    </Compile>
     <Compile Update="Validation\PreferenceModelValidators\PreferenceModelValidationMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -31,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Validation\PhotoModelValidators\PhotoModelValidationMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PhotoModelValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Validation\PreferenceModelValidators\PreferenceModelValidationMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PreferenceModelValidationMessages.Designer.cs</LastGenOutput>

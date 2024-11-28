@@ -1,6 +1,6 @@
 ﻿namespace Meetme.ProfileService.BLL.Interfaces;
 
-public interface IServiceOperations<TModel, TCreateModel, TUpdateModel>
+public interface IGenericService<TModel, TCreateModel, TUpdateModel>
 {
 	Task<IEnumerable<TModel>> GetAllAsync(CancellationToken cancellationToken);
 

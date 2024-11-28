@@ -22,9 +22,9 @@ public static class DependencyInjection
 
 		services.AddMappings();
 
-		services.AddScoped<IServiceOperations<ProfileModel, CreateProfileModel, UpdateProfileModel>, Services.ProfileService>();
-		services.AddScoped<IServiceOperations<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>, PreferenceService>();
-		services.AddScoped<IServiceOperations<PhotoModel, CreatePhotoModel, UpdatePhotoModel>, PhotoService>();
+		services.AddScoped<IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel>, Services.ProfileService>();
+		services.AddScoped<IGenericService<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>, PreferenceService>();
+		services.AddScoped<IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel>, PhotoService>();
 
 		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

@@ -8,7 +8,7 @@ using Meetme.ProfileService.DAL.Repositories.Interfaces;
 
 namespace Meetme.ProfileService.BLL.Services;
 
-public class ProfileService : IServiceOperations<ProfileModel, CreateProfileModel, UpdateProfileModel>
+public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel>
 {
 	private readonly IRepository<ProfileEntity> _repository;
 	private readonly IMapper _mapper;
@@ -40,11 +40,11 @@ public class ProfileService : IServiceOperations<ProfileModel, CreateProfileMode
 
 	public async Task<IEnumerable<ProfileModel>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		var profiles = await _repository.GetAllAsync(cancellationToken);
+		var profileEntities = await _repository.GetAllAsync(cancellationToken);
 
-		var listOfProfiles = _mapper.Map<IEnumerable<ProfileModel>>(profiles);
+		var profiles = _mapper.Map<IEnumerable<ProfileModel>>(profileEntities);
 
-		return listOfProfiles;
+		return profiles;
 	}
 
 	public async Task<ProfileModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -70,11 +70,7 @@ public class ProfileService : IServiceOperations<ProfileModel, CreateProfileMode
 			throw new BusinessLogicException("Profile does not exist");
 		}
 
-		profile.Name = model.Name;
-		profile.Age = model.Age;
-		profile.Bio = model.Bio;
-		profile.Gender = Enum.Parse<Gender>(model.Gender!);
-		profile.Location = model.Location;
+		_mapper.Map(profile, model);
 
 		await _repository.UpdateAsync(profile, cancellationToken);
 	}

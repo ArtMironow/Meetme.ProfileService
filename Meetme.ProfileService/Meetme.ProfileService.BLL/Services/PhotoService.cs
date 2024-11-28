@@ -8,7 +8,7 @@ using Meetme.ProfileService.DAL.Repositories.Interfaces;
 
 namespace Meetme.ProfileService.BLL.Services;
 
-public class PhotoService : IServiceOperations<PhotoModel, CreatePhotoModel, UpdatePhotoModel>
+public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel>
 {
 	private readonly IRepository<PhotoEntity> _repository;
 	private readonly IMapper _mapper;
@@ -40,11 +40,11 @@ public class PhotoService : IServiceOperations<PhotoModel, CreatePhotoModel, Upd
 
 	public async Task<IEnumerable<PhotoModel>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		var photos = await _repository.GetAllAsync(cancellationToken);
+		var photoEntities = await _repository.GetAllAsync(cancellationToken);
 
-		var listOfPhotos = _mapper.Map<IEnumerable<PhotoModel>>(photos);
+		var photos = _mapper.Map<IEnumerable<PhotoModel>>(photoEntities);
 
-		return listOfPhotos;
+		return photos;
 	}
 
 	public async Task<PhotoModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -70,7 +70,7 @@ public class PhotoService : IServiceOperations<PhotoModel, CreatePhotoModel, Upd
 			throw new BusinessLogicException("Photo does not exist");
 		}
 
-		photo.IsProfilePicture = model.IsProfilePicture;
+		_mapper.Map(photo, model);
 
 		await _repository.UpdateAsync(photo, cancellationToken);
 	}

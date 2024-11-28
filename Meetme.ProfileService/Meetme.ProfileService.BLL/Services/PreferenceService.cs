@@ -3,12 +3,11 @@ using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.DAL.Entities;
-using Meetme.ProfileService.DAL.Entities.Enums;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 
 namespace Meetme.ProfileService.BLL.Services;
 
-public class PreferenceService : IServiceOperations<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>
+public class PreferenceService : IGenericService<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>
 {
 	private readonly IRepository<PreferenceEntity> _repository;
 	private readonly IMapper _mapper;
@@ -40,11 +39,11 @@ public class PreferenceService : IServiceOperations<PreferenceModel, CreatePrefe
 
 	public async Task<IEnumerable<PreferenceModel>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		var preferences = await _repository.GetAllAsync(cancellationToken);
+		var preferenceEntities = await _repository.GetAllAsync(cancellationToken);
 
-		var listOfPreferences = _mapper.Map<IEnumerable<PreferenceModel>>(preferences);
+		var preferences = _mapper.Map<IEnumerable<PreferenceModel>>(preferenceEntities);
 
-		return listOfPreferences;
+		return preferences;
 	}
 
 	public async Task<PreferenceModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -70,10 +69,7 @@ public class PreferenceService : IServiceOperations<PreferenceModel, CreatePrefe
 			throw new BusinessLogicException("Preference does not exist");
 		}
 
-		preference.MinAge = model.MinAge;
-		preference.MaxAge = model.MaxAge;
-		preference.GenderPreference = Enum.Parse<Gender>(model.GenderPreference!);
-		preference.DistanceRadius = model.DistanceRadius;
+		_mapper.Map(preference, model);
 
 		await _repository.UpdateAsync(preference, cancellationToken);
 	}

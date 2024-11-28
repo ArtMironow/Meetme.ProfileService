@@ -7,6 +7,6 @@ public class PhotoModelValidator : AbstractValidator<PhotoModel>
 {
 	public PhotoModelValidator()
 	{
-		RuleFor(x => x.PhotoUrl).NotEmpty();
+		RuleFor(x => x.ProfileId).NotEmpty().WithMessage(PhotoModelValidationMessages.ProfileIdRequired);
 	}
 }
