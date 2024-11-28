@@ -2,6 +2,6 @@
 
 public static class PreferenceModelValidationKeys
 {
-	public const int MinAge = 16;
-	public const int MaxAge = 60;
+	public const int MinPartnerAge = 16;
+	public const int MaxPartnerAge = 60;
 }

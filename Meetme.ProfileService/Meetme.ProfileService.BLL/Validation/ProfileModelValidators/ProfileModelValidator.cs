@@ -15,11 +15,6 @@ public class ProfileModelValidator : AbstractValidator<ProfileModel>
 
 	private static bool IsAgeInRange(int age)
 	{
-		if (age >= ProfileModelValidationKeys.MinAge && age <= ProfileModelValidationKeys.MaxAge)
-		{
-			return true;
-		}
-
-		return false;
+		return age >= ProfileModelValidationKeys.MinAge && age <= ProfileModelValidationKeys.MaxAge;
 	}
 }

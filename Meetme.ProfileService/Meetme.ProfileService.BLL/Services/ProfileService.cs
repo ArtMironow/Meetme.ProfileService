@@ -3,7 +3,6 @@ using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
 using Meetme.ProfileService.DAL.Entities;
-using Meetme.ProfileService.DAL.Entities.Enums;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 
 namespace Meetme.ProfileService.BLL.Services;
@@ -22,6 +21,11 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 	public async Task AddAsync(CreateProfileModel model, CancellationToken cancellationToken)
 	{
 		var profile = _mapper.Map<ProfileEntity>(model);
+
+		if (await _repository.GetFirstOrDefaultAsync(p => p.IdentityId == profile.IdentityId, cancellationToken) != null)
+		{
+			throw new BusinessLogicException("Profile for this identity already exists");
+		}
 
 		await _repository.AddAsync(profile, cancellationToken);
 	}

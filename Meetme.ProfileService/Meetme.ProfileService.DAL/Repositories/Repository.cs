@@ -2,6 +2,8 @@
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Numerics;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
@@ -22,6 +24,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 	public virtual async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
 	{
 		return await DbContext.Set<TEntity>().ToListAsync(cancellationToken);
+	}
+
+	public async Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+	{
+		return await DbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync(cancellationToken);
 	}
 
 	public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
