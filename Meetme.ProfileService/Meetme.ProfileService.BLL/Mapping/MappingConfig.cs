@@ -1,5 +1,4 @@
 ﻿using Mapster;
-using Meetme.ProfileService.BLL.Models;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.BLL.Models.ProfileModels;

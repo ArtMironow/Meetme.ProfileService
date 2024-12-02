@@ -1,4 +1,5 @@
-﻿using Meetme.ProfileService.BLL.Models.PreferenceModels;
+﻿using Meetme.ProfileService.BLL.Models.PhotoModels;
+using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.DAL.Entities.Enums;
 
 namespace Meetme.ProfileService.BLL.Models.ProfileModels;

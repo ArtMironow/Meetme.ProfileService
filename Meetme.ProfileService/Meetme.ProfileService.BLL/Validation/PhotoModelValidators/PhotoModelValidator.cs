@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Meetme.ProfileService.BLL.Models;
+using Meetme.ProfileService.BLL.Models.PhotoModels;
 
 namespace Meetme.ProfileService.BLL.Validation.PhotoModelValidators;
 

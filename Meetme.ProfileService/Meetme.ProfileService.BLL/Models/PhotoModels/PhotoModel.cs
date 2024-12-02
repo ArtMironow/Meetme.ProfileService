@@ -1,4 +1,4 @@
-﻿namespace Meetme.ProfileService.BLL.Models;
+﻿namespace Meetme.ProfileService.BLL.Models.PhotoModels;
 
 public class PhotoModel
 {

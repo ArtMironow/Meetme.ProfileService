@@ -1,7 +1,6 @@
 ﻿using MapsterMapper;
 using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Interfaces;
-using Meetme.ProfileService.BLL.Models;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
@@ -70,7 +69,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 			throw new BusinessLogicException("Photo does not exist");
 		}
 
-		_mapper.Map(photo, model);
+		_mapper.Map(model, photo);
 
 		await _repository.UpdateAsync(photo, cancellationToken);
 	}

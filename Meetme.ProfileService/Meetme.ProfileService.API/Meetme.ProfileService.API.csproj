@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Meetme.ProfileService.BLL\Meetme.ProfileService.BLL.csproj" />
   </ItemGroup>
 

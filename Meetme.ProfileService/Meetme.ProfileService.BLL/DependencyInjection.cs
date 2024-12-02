@@ -2,7 +2,6 @@
 using Mapster;
 using MapsterMapper;
 using Meetme.ProfileService.BLL.Interfaces;
-using Meetme.ProfileService.BLL.Models;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
