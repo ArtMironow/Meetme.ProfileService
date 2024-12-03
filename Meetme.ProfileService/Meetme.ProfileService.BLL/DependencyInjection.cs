@@ -25,8 +25,6 @@ public static class DependencyInjection
 		services.AddScoped<IGenericService<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>, PreferenceService>();
 		services.AddScoped<IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel>, PhotoService>();
 
-		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
 		return services;
 	}
 

@@ -1,6 +1,6 @@
-﻿namespace Meetme.ProfileService.BLL.Validation.ProfileModelValidators;
+﻿namespace Meetme.ProfileService.API.Validation.ProfileViewModelValidators;
 
-public static class ProfileModelValidationKeys
+public static class ProfileViewModelValidationKeys
 {
 	public const int MinAge = 16;
 	public const int MaxAge = 60;

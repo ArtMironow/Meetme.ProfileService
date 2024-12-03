@@ -1,41 +1,44 @@
-﻿using Meetme.ProfileService.BLL.Interfaces;
+﻿using MapsterMapper;
+using Meetme.ProfileService.API.Common.Routes;
+using Meetme.ProfileService.API.ViewModels.PhotoViewModels;
+using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meetme.ProfileService.API.Controllers;
 
-[Route("profiles/{profileId}/photos")]
+[Route(BaseRoutes.Photos)]
 [ApiController]
 public class PhotosController : ControllerBase
 {
 	private readonly IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel> _photoService;
+	private readonly IMapper _mapper;
 
-	public PhotosController(IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel> photoService)
+	public PhotosController(IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel> photoService, IMapper mapper)
 	{
 		_photoService = photoService;
+		_mapper = mapper;
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> CreateAsync(CreatePhotoModel model, CancellationToken cancellationToken)
+	public async Task CreateAsync(CreatePhotoViewModel viewModel, CancellationToken cancellationToken)
 	{
-		await _photoService.AddAsync(model, cancellationToken);
+		var model = _mapper.Map<CreatePhotoModel>(viewModel);
 
-		return Ok();
+		await _photoService.AddAsync(model, cancellationToken);
 	}
 
 	[HttpPatch("{id}")]
-	public async Task<IActionResult> UpdateAsync(Guid id, UpdatePhotoModel model, CancellationToken cancellationToken)
+	public async Task UpdateAsync(Guid id, UpdatePhotoViewModel viewModel, CancellationToken cancellationToken)
 	{
-		await _photoService.UpdateAsync(id, model, cancellationToken);
+		var model = _mapper.Map<UpdatePhotoModel>(viewModel);
 
-		return Ok();
+		await _photoService.UpdateAsync(id, model, cancellationToken);
 	}
 
 	[HttpDelete("{id}")]
-	public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
 	{
 		await _photoService.DeleteAsync(id, cancellationToken);
-
-		return Ok();
 	}
 }

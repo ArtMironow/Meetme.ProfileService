@@ -1,57 +1,64 @@
-﻿using Meetme.ProfileService.BLL.Interfaces;
+﻿using MapsterMapper;
+using Meetme.ProfileService.API.Common.Routes;
+using Meetme.ProfileService.API.ViewModels.ProfileViewModels;
+using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meetme.ProfileService.API.Controllers;
 
-[Route("api/[controller]")]
+[Route(BaseRoutes.Profiles)]
 [ApiController]
 public class ProfilesController : ControllerBase
 {
 	private readonly IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel> _profileService;
+	private readonly IMapper _mapper;
 
-	public ProfilesController(IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel> profileService)
+	public ProfilesController(IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel> profileService, IMapper mapper)
 	{
 		_profileService = profileService;
+		_mapper = mapper;
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> CreateAsync(CreateProfileModel model, CancellationToken cancellationToken)
+	public async Task CreateAsync(CreateProfileViewModel viewModel, CancellationToken cancellationToken)
 	{
-		await _profileService.AddAsync(model, cancellationToken);
+		var model = _mapper.Map<CreateProfileModel>(viewModel);
 
-		return Ok();
+		await _profileService.AddAsync(model, cancellationToken);
 	}
 
 	[HttpDelete("{id}")]
-	public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
 	{
 		await _profileService.DeleteAsync(id, cancellationToken);
-
-		return Ok();
 	}
 
 	[HttpPut("{id}")]
-	public async Task<IActionResult> UpdateAsync(Guid id,UpdateProfileModel model, CancellationToken cancellationToken)
+	public async Task UpdateAsync(Guid id,UpdateProfileViewModel viewModel, CancellationToken cancellationToken)
 	{
-		await _profileService.UpdateAsync(id, model, cancellationToken);
+		var model = _mapper.Map<UpdateProfileModel>(viewModel);
 
-		return Ok();
+		await _profileService.UpdateAsync(id, model, cancellationToken);
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
+	public async Task<IEnumerable<ProfileViewModel>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		var profiles = await _profileService.GetAllAsync(cancellationToken);
+		var profileModels = await _profileService.GetAllAsync(cancellationToken);
 
-		return Ok(profiles);
+		var profileViewModels = _mapper.Map<IEnumerable<ProfileViewModel>>(profileModels);
+
+		return profileViewModels;
 	}
 
 	[HttpGet("{id}")]
-	public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+	public async Task<ProfileViewModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
-		var profile = await _profileService.GetByIdAsync(id, cancellationToken);
+		var profileModel = await _profileService.GetByIdAsync(id, cancellationToken);
 
-		return Ok(profile);
+		var profileViewModel = _mapper.Map<ProfileViewModel>(profileModel);
+
+		return profileViewModel;
 	}
 }
