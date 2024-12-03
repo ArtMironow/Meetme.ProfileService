@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Meetme.ProfileService.BLL.Validation.PreferenceModelValidators {
+namespace Meetme.ProfileService.API.Validation.ProfileViewModelValidators {
     using System;
     
     
@@ -22,25 +22,25 @@ namespace Meetme.ProfileService.BLL.Validation.PreferenceModelValidators {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PreferenceModelValidationMessages {
+    public class ProfileViewModelValidationMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PreferenceModelValidationMessages() {
+        internal ProfileViewModelValidationMessages() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Meetme.ProfileService.BLL.Validation.PreferenceModelValidators.PreferenceModelVal" +
-                            "idationMessages", typeof(PreferenceModelValidationMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Meetme.ProfileService.API.Validation.ProfileViewModelValidators.ProfileViewModelV" +
+                            "alidationMessages", typeof(ProfileViewModelValidationMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -52,7 +52,7 @@ namespace Meetme.ProfileService.BLL.Validation.PreferenceModelValidators {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,29 +62,29 @@ namespace Meetme.ProfileService.BLL.Validation.PreferenceModelValidators {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gender preference is required.
+        ///   Looks up a localized string similar to Age should be &gt;= 16 and &lt;= 60.
         /// </summary>
-        internal static string GenderPreferenceRequired {
+        public static string AgeIsNotInRange {
             get {
-                return ResourceManager.GetString("GenderPreferenceRequired", resourceCulture);
+                return ResourceManager.GetString("AgeIsNotInRange", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max age should be less or equal to 60.
+        ///   Looks up a localized string similar to Gender is required.
         /// </summary>
-        internal static string IncorrectMaxAge {
+        public static string GenderRequired {
             get {
-                return ResourceManager.GetString("IncorrectMaxAge", resourceCulture);
+                return ResourceManager.GetString("GenderRequired", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min age should be more or equal to 16.
+        ///   Looks up a localized string similar to Name is required.
         /// </summary>
-        internal static string IncorrectMinAge {
+        public static string NameRequired {
             get {
-                return ResourceManager.GetString("IncorrectMinAge", resourceCulture);
+                return ResourceManager.GetString("NameRequired", resourceCulture);
             }
         }
     }

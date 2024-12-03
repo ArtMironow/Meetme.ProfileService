@@ -76,7 +76,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 			throw new BusinessLogicException("Profile does not exist");
 		}
 
-		_mapper.Map(profile, model);
+		_mapper.Map(model, profile);
 
 		await _repository.UpdateAsync(profile, cancellationToken);
 	}

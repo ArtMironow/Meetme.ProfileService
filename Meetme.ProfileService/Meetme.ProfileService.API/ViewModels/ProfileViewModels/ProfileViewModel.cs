@@ -1,10 +1,10 @@
-﻿using Meetme.ProfileService.BLL.Models.PhotoModels;
-using Meetme.ProfileService.BLL.Models.PreferenceModels;
+﻿using Meetme.ProfileService.API.ViewModels.PhotoViewModels;
+using Meetme.ProfileService.API.ViewModels.PreferenceViewModels;
 using Meetme.ProfileService.DAL.Entities.Enums;
 
-namespace Meetme.ProfileService.BLL.Models.ProfileModels;
+namespace Meetme.ProfileService.API.ViewModels.ProfileViewModels;
 
-public class ProfileModel
+public class ProfileViewModel
 {
 	public Guid Id { get; set; }
 	public Guid IdentityId { get; set; }
@@ -15,6 +15,6 @@ public class ProfileModel
 	public string? Location { get; set; }
 	public DateTime CreatedAt { get; set; }
 	public DateTime UpdatedAt { get; set; }
-	public PreferenceModel? Preference { get; set; }
-	public ICollection<PhotoModel>? Photos { get; set; }
+	public PreferenceViewModel? Preference { get; set; }
+	public ICollection<PhotoViewModel>? Photos { get; set; }
 }

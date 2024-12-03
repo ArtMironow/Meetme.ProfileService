@@ -69,7 +69,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 			throw new BusinessLogicException("Preference does not exist");
 		}
 
-		_mapper.Map(preference, model);
+		_mapper.Map(model, preference);
 
 		await _repository.UpdateAsync(preference, cancellationToken);
 	}

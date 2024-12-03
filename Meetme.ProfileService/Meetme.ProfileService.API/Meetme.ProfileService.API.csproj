@@ -16,11 +16,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Meetme.ProfileService.BLL\Meetme.ProfileService.BLL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Meetme.ProfileService.BLL\Meetme.ProfileService.BLL.csproj" />
+    <Compile Update="Validation\PhotoViewModelValidators\PhotoViewModelValidationMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PhotoViewModelValidationMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Validation\PreferenceViewModelValidators\PreferenceViewModelValidationMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PreferenceViewModelValidationMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Validation\ProfileViewModelValidators\ProfileViewModelValidationMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProfileViewModelValidationMessages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Validation\PhotoViewModelValidators\PhotoViewModelValidationMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PhotoViewModelValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Validation\PreferenceViewModelValidators\PreferenceViewModelValidationMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PreferenceViewModelValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Validation\ProfileViewModelValidators\ProfileViewModelValidationMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProfileViewModelValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Meetme.ProfileService.BLL.Validation.ProfileModelValidators {
+namespace Meetme.ProfileService.API.Validation.PhotoViewModelValidators {
     using System;
     
     
@@ -22,25 +22,25 @@ namespace Meetme.ProfileService.BLL.Validation.ProfileModelValidators {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ProfileModelValidationMessages {
+    public class PhotoViewModelValidationMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ProfileModelValidationMessages() {
+        internal PhotoViewModelValidationMessages() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Meetme.ProfileService.BLL.Validation.ProfileModelValidators.ProfileModelValidatio" +
-                            "nMessages", typeof(ProfileModelValidationMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Meetme.ProfileService.API.Validation.PhotoViewModelValidators.PhotoViewModelValid" +
+                            "ationMessages", typeof(PhotoViewModelValidationMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -52,7 +52,7 @@ namespace Meetme.ProfileService.BLL.Validation.ProfileModelValidators {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,29 +62,11 @@ namespace Meetme.ProfileService.BLL.Validation.ProfileModelValidators {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Age should be &gt;= 16 and &lt;= 60.
+        ///   Looks up a localized string similar to ProfileId is required.
         /// </summary>
-        internal static string AgeIsNotInRange {
+        public static string ProfileIdRequired {
             get {
-                return ResourceManager.GetString("AgeIsNotInRange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gender is required.
-        /// </summary>
-        internal static string GenderRequired {
-            get {
-                return ResourceManager.GetString("GenderRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name is required.
-        /// </summary>
-        internal static string NameRequired {
-            get {
-                return ResourceManager.GetString("NameRequired", resourceCulture);
+                return ResourceManager.GetString("ProfileIdRequired", resourceCulture);
             }
         }
     }

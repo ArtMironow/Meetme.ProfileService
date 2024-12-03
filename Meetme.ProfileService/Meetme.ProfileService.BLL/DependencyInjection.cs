@@ -2,7 +2,6 @@
 using Mapster;
 using MapsterMapper;
 using Meetme.ProfileService.BLL.Interfaces;
-using Meetme.ProfileService.BLL.Models;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
@@ -25,8 +24,6 @@ public static class DependencyInjection
 		services.AddScoped<IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel>, Services.ProfileService>();
 		services.AddScoped<IGenericService<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel>, PreferenceService>();
 		services.AddScoped<IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel>, PhotoService>();
-
-		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 		return services;
 	}

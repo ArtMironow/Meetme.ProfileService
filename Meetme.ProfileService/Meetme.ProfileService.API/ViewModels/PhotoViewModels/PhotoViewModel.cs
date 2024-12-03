@@ -1,6 +1,6 @@
-﻿namespace Meetme.ProfileService.BLL.Models.PhotoModels;
+﻿namespace Meetme.ProfileService.API.ViewModels.PhotoViewModels;
 
-public class PhotoModel
+public class PhotoViewModel
 {
 	public Guid Id { get; set; }
 	public Guid ProfileId { get; set; }
