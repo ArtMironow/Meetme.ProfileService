@@ -21,24 +21,24 @@ public class PhotosController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task CreateAsync(CreatePhotoViewModel viewModel, CancellationToken cancellationToken)
+	public Task CreateAsync(CreatePhotoViewModel viewModel, CancellationToken cancellationToken)
 	{
 		var model = _mapper.Map<CreatePhotoModel>(viewModel);
 
-		await _photoService.AddAsync(model, cancellationToken);
+		return _photoService.AddAsync(model, cancellationToken);
 	}
 
 	[HttpPatch("{id}")]
-	public async Task UpdateAsync(Guid id, UpdatePhotoViewModel viewModel, CancellationToken cancellationToken)
+	public Task UpdateAsync(Guid id, UpdatePhotoViewModel viewModel, CancellationToken cancellationToken)
 	{
 		var model = _mapper.Map<UpdatePhotoModel>(viewModel);
 
-		await _photoService.UpdateAsync(id, model, cancellationToken);
+		return _photoService.UpdateAsync(id, model, cancellationToken);
 	}
 
 	[HttpDelete("{id}")]
-	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+	public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
 	{
-		await _photoService.DeleteAsync(id, cancellationToken);
+		return _photoService.DeleteAsync(id, cancellationToken);
 	}
 }

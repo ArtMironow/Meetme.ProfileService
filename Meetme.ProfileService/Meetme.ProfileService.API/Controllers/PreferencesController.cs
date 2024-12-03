@@ -21,18 +21,18 @@ public class PreferencesController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task CreateAsync(CreatePreferenceViewModel viewModel, CancellationToken cancellationToken)
+	public Task CreateAsync(CreatePreferenceViewModel viewModel, CancellationToken cancellationToken)
 	{
 		var model = _mapper.Map<CreatePreferenceModel>(viewModel);
 
-		await _preferenceService.AddAsync(model, cancellationToken);
+		return _preferenceService.AddAsync(model, cancellationToken);
 	}
 
 	[HttpPut("{id}")]
-	public async Task UpdateAsync(Guid id, UpdatePreferenceViewModel viewModel, CancellationToken cancellationToken)
+	public Task UpdateAsync(Guid id, UpdatePreferenceViewModel viewModel, CancellationToken cancellationToken)
 	{
 		var model = _mapper.Map<UpdatePreferenceModel>(viewModel);
 
-		await _preferenceService.UpdateAsync(id, model, cancellationToken);
+		return _preferenceService.UpdateAsync(id, model, cancellationToken);
 	}
 }

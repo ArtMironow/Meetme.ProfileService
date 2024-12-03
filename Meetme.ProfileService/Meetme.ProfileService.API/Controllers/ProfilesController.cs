@@ -21,25 +21,25 @@ public class ProfilesController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task CreateAsync(CreateProfileViewModel viewModel, CancellationToken cancellationToken)
+	public Task CreateAsync(CreateProfileViewModel viewModel, CancellationToken cancellationToken)
 	{
 		var model = _mapper.Map<CreateProfileModel>(viewModel);
 
-		await _profileService.AddAsync(model, cancellationToken);
+		return _profileService.AddAsync(model, cancellationToken);
 	}
 
 	[HttpDelete("{id}")]
-	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+	public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
 	{
-		await _profileService.DeleteAsync(id, cancellationToken);
+		return _profileService.DeleteAsync(id, cancellationToken);
 	}
 
 	[HttpPut("{id}")]
-	public async Task UpdateAsync(Guid id,UpdateProfileViewModel viewModel, CancellationToken cancellationToken)
+	public Task UpdateAsync(Guid id,UpdateProfileViewModel viewModel, CancellationToken cancellationToken)
 	{
 		var model = _mapper.Map<UpdateProfileModel>(viewModel);
 
-		await _profileService.UpdateAsync(id, model, cancellationToken);
+		return _profileService.UpdateAsync(id, model, cancellationToken);
 	}
 
 	[HttpGet]
