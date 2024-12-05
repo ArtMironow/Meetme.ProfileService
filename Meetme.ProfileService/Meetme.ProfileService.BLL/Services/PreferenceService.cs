@@ -18,11 +18,11 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 		_mapper = mapper;
 	}
 
-	public async Task AddAsync(CreatePreferenceModel model, CancellationToken cancellationToken)
+	public Task AddAsync(CreatePreferenceModel model, CancellationToken cancellationToken)
 	{
 		var preference = _mapper.Map<PreferenceEntity>(model);
 
-		await _repository.AddAsync(preference, cancellationToken);
+		return _repository.AddAsync(preference, cancellationToken);
 	}
 
 	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
