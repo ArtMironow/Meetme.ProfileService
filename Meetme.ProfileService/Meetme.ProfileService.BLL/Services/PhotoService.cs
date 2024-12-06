@@ -18,11 +18,11 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 		_mapper = mapper;
 	}
 
-	public async Task AddAsync(CreatePhotoModel model, CancellationToken cancellationToken)
+	public Task AddAsync(CreatePhotoModel model, CancellationToken cancellationToken)
 	{
 		var photo = _mapper.Map<PhotoEntity>(model);
 
-		await _repository.AddAsync(photo, cancellationToken);
+		return _repository.AddAsync(photo, cancellationToken);
 	}
 
 	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)

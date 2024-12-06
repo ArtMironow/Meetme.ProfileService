@@ -3,7 +3,6 @@ using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Numerics;
 
 namespace Meetme.ProfileService.DAL.Repositories;
 
@@ -26,9 +25,9 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 		return await DbContext.Set<TEntity>().ToListAsync(cancellationToken);
 	}
 
-	public async Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+	public Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
 	{
-		return await DbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync(cancellationToken);
+		return DbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync(cancellationToken);
 	}
 
 	public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
@@ -37,15 +36,15 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
 		await DbContext.SaveChangesAsync(cancellationToken);
 	}
 
-	public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
+	public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
 	{
 		DbContext.Set<TEntity>().Update(entity);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		return DbContext.SaveChangesAsync(cancellationToken);
 	}
 
-	public async Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
+	public Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
 	{
 		DbContext.Set<TEntity>().Remove(entity);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		return DbContext.SaveChangesAsync(cancellationToken);
 	}
 }
