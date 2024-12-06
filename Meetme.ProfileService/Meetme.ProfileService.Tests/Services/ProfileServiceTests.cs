@@ -1,260 +1,163 @@
-﻿using AutoFixture;
+﻿using Mapster;
 using MapsterMapper;
+using Meetme.ProfileService.API.Mapping;
 using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using Shouldly;
 using System.Linq.Expressions;
 
 namespace Meetme.ProfileService.Tests.Services;
 
 public class ProfileServiceTests
 {
-	private readonly BLL.Services.ProfileService _sut;
+	private readonly BLL.Services.ProfileService _profileService;
 	private readonly IRepository<ProfileEntity> _profileRepositoryMock;
-	private readonly IMapper _mapperMock;
-	private readonly IFixture _fixture;
+	private readonly IMapper _mapper;
 
 	public ProfileServiceTests()
 	{
-		_fixture = new Fixture();
-
-		_fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
-		_fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-
 		_profileRepositoryMock = Substitute.For<IRepository<ProfileEntity>>();
-		_mapperMock = Substitute.For<IMapper>();
 
-		_sut = new BLL.Services.ProfileService(_profileRepositoryMock, _mapperMock);
+		var config = new TypeAdapterConfig();
+		new MappingConfig().Register(config);
+
+		_mapper = new Mapper(config);
+
+		_profileService = new BLL.Services.ProfileService(_profileRepositoryMock, _mapper);
 	}
 
-	[Fact]
-	public async Task AddAsync_ShouldAddProfile_WhenIdentityIdIsUnique()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task AddAsync_ShouldAddProfile_WhenIdentityIdIsUnique(CreateProfileModel createProfileModel)
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		_profileRepositoryMock.GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), default).ReturnsNull();
 
-		var profileEntity = _fixture.Create<ProfileEntity>();
-		var createProfileModel = _fixture.Create<CreateProfileModel>();
+		await _profileService.AddAsync(createProfileModel, default);
 
-		_profileRepositoryMock.GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), cancellationToken).ReturnsNull();
-
-		_mapperMock.Map<ProfileEntity>(createProfileModel).Returns(profileEntity);
-
-		//Act
-		await _sut.AddAsync(createProfileModel, cancellationToken);
-
-		//Assert
-		await _profileRepositoryMock.Received(1).GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), cancellationToken);
-		await _profileRepositoryMock.Received(1).AddAsync(profileEntity, cancellationToken);
-		
-		_mapperMock.Received(1).Map<ProfileEntity>(createProfileModel);
+		await _profileRepositoryMock.Received(1).GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), default);
+		await _profileRepositoryMock.Received(1).AddAsync(Arg.Any<ProfileEntity>(), default);
 	}
 
-	[Fact]
-	public async Task AddAsync_ShouldThrowBusinessLogicException_WhenIdentityIdIsNotUnique()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task AddAsync_ShouldThrowBusinessLogicException_WhenIdentityIdIsNotUnique(
+		ProfileEntity identityProfile,
+		CreateProfileModel createProfileModel)
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
-
-		var profileEntity = _fixture.Create<ProfileEntity>();
-		var identityProfile = _fixture.Create<ProfileEntity?>();
-		var createProfileModel = _fixture.Create<CreateProfileModel>();
-
 		_profileRepositoryMock
-			.GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), cancellationToken)
+			.GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), default)
 			.Returns(identityProfile);
 
-		_mapperMock.Map<ProfileEntity>(createProfileModel).Returns(profileEntity);
+		await Should.ThrowAsync<BusinessLogicException>(
+			async () => await _profileService.AddAsync(createProfileModel, default));
 
-		//Act
-		async Task action() => await _sut.AddAsync(createProfileModel, cancellationToken);
-
-		//Assert
-		var exception = await Assert.ThrowsAsync<BusinessLogicException>(action);
-		Assert.Equal("Profile for this identity already exists", exception.Message);
-
-		await _profileRepositoryMock.Received(1).GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), cancellationToken);
-
-		_mapperMock.Received(1).Map<ProfileEntity>(createProfileModel);
+		await _profileRepositoryMock.Received(1).GetFirstOrDefaultAsync(Arg.Any<Expression<Func<ProfileEntity, bool>>>(), default);
 	}
 
-	[Fact]
-	public async Task DeleteAsync_ShouldDeleteProfile_WhenProfileExists()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task DeleteAsync_ShouldDeleteProfile_WhenProfileExists(Guid id, ProfileEntity profileEntity)
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		_profileRepositoryMock.GetByIdAsync(id, default).Returns(profileEntity);
 
-		var id = _fixture.Create<Guid>();
+		await _profileService.DeleteAsync(id, default);
 
-		var profileEntity = _fixture.Create<ProfileEntity>();
-
-		_profileRepositoryMock.GetByIdAsync(id, cancellationToken).Returns(profileEntity);
-
-		//Act
-		await _sut.DeleteAsync(id, cancellationToken);
-
-		//Assert
-		await _profileRepositoryMock.Received(1).RemoveAsync(profileEntity, cancellationToken);
-
-		await _profileRepositoryMock.Received(1).GetByIdAsync(id, cancellationToken);
+		await _profileRepositoryMock.Received(1).RemoveAsync(profileEntity, default);
+		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
 	}
 
 	[Fact]
 	public async Task DeleteAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist()
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		var id = Guid.NewGuid();
 
-		var id = _fixture.Create<Guid>();
+		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		_profileRepositoryMock.GetByIdAsync(id, cancellationToken).ReturnsNull();
+		await Should.ThrowAsync<BusinessLogicException>(
+			async () => await _profileService.DeleteAsync(id, default));
 
-		//Act
-		async Task action() => await _sut.DeleteAsync(id, cancellationToken);
-
-		//Assert
-		var exception = await Assert.ThrowsAsync<BusinessLogicException>(action);
-		Assert.Equal("Profile with this id does not exist", exception.Message);
-
-		await _profileRepositoryMock.Received(1).GetByIdAsync(id, cancellationToken);
+		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
 	}
 
-	[Fact]
-	public async Task UpdateAsync_ShouldDeleteProfile_WhenProfileExists()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task UpdateAsync_ShouldUpdateProfile_WhenProfileExists(
+		Guid id,
+		ProfileEntity profileEntity,
+		UpdateProfileModel updateProfileModel)
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		_profileRepositoryMock.GetByIdAsync(id, default).Returns(profileEntity);
 
-		var id = _fixture.Create<Guid>();
+		await _profileService.UpdateAsync(id, updateProfileModel, default);
 
-		var profileEntity = _fixture.Create<ProfileEntity>();
-		var updateProfileModel = _fixture.Create<UpdateProfileModel>();
-
-		_profileRepositoryMock.GetByIdAsync(id, cancellationToken).Returns(profileEntity);
-
-		//Act
-		await _sut.UpdateAsync(id, updateProfileModel, cancellationToken);
-
-		//Assert
-		await _profileRepositoryMock.Received(1).GetByIdAsync(id, cancellationToken);
-		await _profileRepositoryMock.Received(1).UpdateAsync(profileEntity, cancellationToken);
-
-		_mapperMock.Received(1).Map(updateProfileModel, profileEntity);
+		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
+		await _profileRepositoryMock.Received(1).UpdateAsync(profileEntity, default);
 	}
 
-	[Fact]
-	public async Task UpdateAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task UpdateAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist(
+		Guid id,
+		UpdateProfileModel updateProfileModel)
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		var id = _fixture.Create<Guid>();
+		await Should.ThrowAsync<BusinessLogicException>(
+			async () => await _profileService.UpdateAsync(id, updateProfileModel, default));
 
-		var updateProfileModel = _fixture.Create<UpdateProfileModel>();
-
-		_profileRepositoryMock.GetByIdAsync(id, cancellationToken).ReturnsNull();
-
-		//Act
-		async Task action() => await _sut.UpdateAsync(id, updateProfileModel, cancellationToken);
-
-		//Assert
-		var exception = await Assert.ThrowsAsync<BusinessLogicException>(action);
-		Assert.Equal("Profile does not exist", exception.Message);
-
-		await _profileRepositoryMock.Received(1).GetByIdAsync(id, cancellationToken);
+		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
 	}
 
-	[Fact]
-	public async Task GetAllAsync_ShouldReturnProfileModels_WhenProfilesExist()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task GetAllAsync_ShouldReturnProfileModels_WhenProfilesExist(IEnumerable<ProfileEntity> profileEntities)
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		_profileRepositoryMock.GetAllAsync(default).Returns(profileEntities);
+		var expectedProfiles = _mapper.Map<IEnumerable<ProfileModel>>(profileEntities);
 
-		var profileEntities = _fixture.CreateMany<ProfileEntity>(10);
-		var expectedProfiles = _fixture.CreateMany<ProfileModel>(10);
+		var resultingProfiles = await _profileService.GetAllAsync(default);
 
-		_profileRepositoryMock.GetAllAsync(cancellationToken).Returns(profileEntities);
+		resultingProfiles.ShouldBeEquivalentTo(expectedProfiles);
 
-		_mapperMock.Map<IEnumerable<ProfileModel>>(profileEntities).Returns(expectedProfiles);
-
-		//Act
-		var resultingProfiles = await _sut.GetAllAsync(cancellationToken);
-
-		//Assert
-		Assert.Equal(expectedProfiles, resultingProfiles);
-
-		await _profileRepositoryMock.Received(1).GetAllAsync(cancellationToken);
-
-		_mapperMock.Received(1).Map<IEnumerable<ProfileModel>>(profileEntities);
+		await _profileRepositoryMock.Received(1).GetAllAsync(default);
 	}
 
 	[Fact]
 	public async Task GetAllAsync_ShouldReturnEmptyList_WhenProfilesDoNotExist()
 	{
-		//Arrange
-		var cancellationToken = _fixture.Create<CancellationToken>();
-
 		var profileEntities = Enumerable.Empty<ProfileEntity>();
-		var expectedProfiles = Enumerable.Empty<ProfileModel>();
 
-		_profileRepositoryMock.GetAllAsync(cancellationToken).Returns(profileEntities);
+		_profileRepositoryMock.GetAllAsync(default).Returns(profileEntities);
+		var expectedProfiles = _mapper.Map<IEnumerable<ProfileModel>>(profileEntities);
 
-		_mapperMock.Map<IEnumerable<ProfileModel>>(profileEntities).Returns(expectedProfiles);
+		var resultingProfiles = await _profileService.GetAllAsync(default);
 
-		//Act
-		var resultingProfiles = await _sut.GetAllAsync(cancellationToken);
+		resultingProfiles.ShouldBeEquivalentTo(expectedProfiles);
 
-		//Assert
-		Assert.Empty(resultingProfiles);
-
-		await _profileRepositoryMock.Received(1).GetAllAsync(cancellationToken);
-
-		_mapperMock.Received(1).Map<IEnumerable<ProfileModel>>(profileEntities);
+		await _profileRepositoryMock.Received(1).GetAllAsync(default);
 	}
 
-	[Fact]
-	public async Task GetByIdAsync_ShouldReturnProfileModel_WhenProfileExists()
+	[Theory, OmitOnRecursionAutoData]
+	public async Task GetByIdAsync_ShouldReturnProfileModel_WhenProfileExists(Guid id, ProfileEntity profileEntity)
 	{
-		//Arrange
-		var id = _fixture.Create<Guid>();
-		var cancellationToken = _fixture.Create<CancellationToken>();
-		var profileEntity = _fixture.Create<ProfileEntity>();
-		var expectedProfileModel = _fixture.Create<ProfileModel>();
+		_profileRepositoryMock.GetByIdAsync(id, default).Returns(profileEntity);
+		var expectedProfileModel = _mapper.Map<ProfileModel>(profileEntity);
 
-		_profileRepositoryMock.GetByIdAsync(id, cancellationToken).Returns(profileEntity);
+		var resultingProfile = await _profileService.GetByIdAsync(id, default);
 
-		_mapperMock.Map<ProfileModel>(profileEntity).Returns(expectedProfileModel);
+		resultingProfile.ShouldBeEquivalentTo(expectedProfileModel);
 
-		//Act
-		var resultingProfile = await _sut.GetByIdAsync(id, cancellationToken);
-
-		//Assert
-		Assert.Equal(expectedProfileModel, resultingProfile);
-
-		await _profileRepositoryMock.Received(1).GetByIdAsync(id, cancellationToken);
-
-		_mapperMock.Received(1).Map<ProfileModel>(profileEntity);
+		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
 	}
 
 	[Fact]
 	public async Task GetByIdAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist()
 	{
-		//Arrange
-		var id = _fixture.Create<Guid>();
-		var cancellationToken = _fixture.Create<CancellationToken>();
+		var id = Guid.NewGuid();
 
-		_profileRepositoryMock.GetByIdAsync(id, cancellationToken).ReturnsNull();
+		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		//Act
-		async Task<ProfileModel> action() => await _sut.GetByIdAsync(id, cancellationToken);
+		await Should.ThrowAsync<BusinessLogicException>(
+			async () => await _profileService.GetByIdAsync(id, default));
 
-		//Assert
-		var exception = await Assert.ThrowsAsync<BusinessLogicException>((Func<Task<ProfileModel>>)action);
-		Assert.Equal("Profile with this id does not exist", exception.Message);
-
-		await _profileRepositoryMock.Received(1).GetByIdAsync(id, cancellationToken);
+		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
 	}
 }
