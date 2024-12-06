@@ -57,8 +57,10 @@ public class ProfileServiceTests
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task DeleteAsync_ShouldDeleteProfile_WhenProfileExists(Guid id, ProfileEntity profileEntity)
+	public async Task DeleteAsync_ShouldDeleteProfile_WhenProfileExists(ProfileEntity profileEntity)
 	{
+		var id = Guid.NewGuid();
+
 		_profileRepositoryMock.GetByIdAsync(id, default).Returns(profileEntity);
 
 		await _profileService.DeleteAsync(id, default);
@@ -82,10 +84,11 @@ public class ProfileServiceTests
 
 	[Theory, OmitOnRecursionAutoData]
 	public async Task UpdateAsync_ShouldUpdateProfile_WhenProfileExists(
-		Guid id,
 		ProfileEntity profileEntity,
 		UpdateProfileModel updateProfileModel)
 	{
+		var id = Guid.NewGuid();
+
 		_profileRepositoryMock.GetByIdAsync(id, default).Returns(profileEntity);
 
 		await _profileService.UpdateAsync(id, updateProfileModel, default);
@@ -95,10 +98,10 @@ public class ProfileServiceTests
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task UpdateAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist(
-		Guid id,
-		UpdateProfileModel updateProfileModel)
+	public async Task UpdateAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist(UpdateProfileModel updateProfileModel)
 	{
+		var id = Guid.NewGuid();
+
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
 		await Should.ThrowAsync<BusinessLogicException>(
@@ -136,8 +139,10 @@ public class ProfileServiceTests
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task GetByIdAsync_ShouldReturnProfileModel_WhenProfileExists(Guid id, ProfileEntity profileEntity)
+	public async Task GetByIdAsync_ShouldReturnProfileModel_WhenProfileExists(ProfileEntity profileEntity)
 	{
+		var id = Guid.NewGuid();
+
 		_profileRepositoryMock.GetByIdAsync(id, default).Returns(profileEntity);
 		var expectedProfileModel = _mapper.Map<ProfileModel>(profileEntity);
 
