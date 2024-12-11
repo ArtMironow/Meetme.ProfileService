@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using Meetme.ProfileService.API.Middlewares;
-using Meetme.ProfileService.API.ViewModels.ProfileViewModels;
 using Meetme.ProfileService.BLL;
 using System.Reflection;
 
@@ -18,6 +18,7 @@ public static class DependencyInjection
 
 		services.AddMappings();
 
+		services.AddFluentValidationAutoValidation();
 		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 		services.AddBusinessLogicLayer(configuration);

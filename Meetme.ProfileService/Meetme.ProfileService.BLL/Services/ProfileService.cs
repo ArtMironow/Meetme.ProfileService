@@ -38,7 +38,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (profile == null)
 		{
-			throw new BusinessLogicException("Profile with this id does not exist");
+			throw new EntityNotFoundException("Profile with this id does not exist");
 		}
 
 		await _repository.RemoveAsync(profile, cancellationToken);
@@ -59,7 +59,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (profile == null)
 		{
-			throw new BusinessLogicException("Profile with this id does not exist");
+			throw new EntityNotFoundException("Profile with this id does not exist");
 		}
 
 		var profileModel = _mapper.Map<ProfileModel>(profile);
@@ -73,7 +73,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (profile == null)
 		{
-			throw new BusinessLogicException("Profile does not exist");
+			throw new EntityNotFoundException("Profile does not exist");
 		}
 
 		_mapper.Map(model, profile);

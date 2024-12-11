@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Meetme.ProfileService.DAL.Data;
 
-internal sealed class TimestampInterceptor : SaveChangesInterceptor
+public sealed class TimestampInterceptor : SaveChangesInterceptor
 {
 	public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
 		DbContextEventData eventData,

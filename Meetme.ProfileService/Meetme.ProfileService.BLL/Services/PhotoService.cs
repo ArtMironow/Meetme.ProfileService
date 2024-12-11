@@ -31,7 +31,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
-			throw new BusinessLogicException("Photo with this id does not exist");
+			throw new EntityNotFoundException("Photo with this id does not exist");
 		}
 
 		await _repository.RemoveAsync(photo, cancellationToken);
@@ -52,7 +52,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
-			throw new BusinessLogicException("Photo with this id does not exist");
+			throw new EntityNotFoundException("Photo with this id does not exist");
 		}
 
 		var photoModel = _mapper.Map<PhotoModel>(photo);
@@ -66,7 +66,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
-			throw new BusinessLogicException("Photo does not exist");
+			throw new EntityNotFoundException("Photo does not exist");
 		}
 
 		_mapper.Map(model, photo);

@@ -1,4 +1,5 @@
 ﻿using Meetme.ProfileService.API.Errors;
+using Meetme.ProfileService.BLL.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -14,7 +15,13 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 		}
 		catch (Exception ex)
 		{
-			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+			var statusCode = ex switch
+			{
+				EntityNotFoundException => HttpStatusCode.NotFound,
+				_ => HttpStatusCode.InternalServerError
+			};
+
+			context.Response.StatusCode = (int)statusCode;
 
 			var errorDetails = new ErrorDetails
 			{

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.BLL",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.Tests", "Meetme.ProfileService.Tests\Meetme.ProfileService.Tests.csproj", "{96FA1976-BEF8-4F44-9B7D-AB29C4A0740A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetme.ProfileService.IntegrationTests", "Meetme.ProfileService.IntegrationTests\Meetme.ProfileService.IntegrationTests.csproj", "{1513E375-390E-46C4-BCF9-93BEAC51AA28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{96FA1976-BEF8-4F44-9B7D-AB29C4A0740A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96FA1976-BEF8-4F44-9B7D-AB29C4A0740A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96FA1976-BEF8-4F44-9B7D-AB29C4A0740A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1513E375-390E-46C4-BCF9-93BEAC51AA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1513E375-390E-46C4-BCF9-93BEAC51AA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1513E375-390E-46C4-BCF9-93BEAC51AA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1513E375-390E-46C4-BCF9-93BEAC51AA28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
