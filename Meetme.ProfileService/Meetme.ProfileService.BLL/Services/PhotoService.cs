@@ -1,5 +1,4 @@
 ﻿using MapsterMapper;
-using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.DAL.Entities;
@@ -31,7 +30,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
-			throw new BusinessLogicException("Photo with this id does not exist");
+			throw new KeyNotFoundException("Photo with this id does not exist");
 		}
 
 		await _repository.RemoveAsync(photo, cancellationToken);
@@ -52,7 +51,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
-			throw new BusinessLogicException("Photo with this id does not exist");
+			throw new KeyNotFoundException("Photo with this id does not exist");
 		}
 
 		var photoModel = _mapper.Map<PhotoModel>(photo);
@@ -66,7 +65,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
-			throw new BusinessLogicException("Photo does not exist");
+			throw new KeyNotFoundException("Photo does not exist");
 		}
 
 		_mapper.Map(model, photo);

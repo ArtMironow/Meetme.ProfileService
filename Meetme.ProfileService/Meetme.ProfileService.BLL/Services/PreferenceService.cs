@@ -1,5 +1,4 @@
 ﻿using MapsterMapper;
-using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.DAL.Entities;
@@ -31,7 +30,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 
 		if (preference == null)
 		{
-			throw new BusinessLogicException("Preference with this id does not exist");
+			throw new KeyNotFoundException("Preference with this id does not exist");
 		}
 
 		await _repository.RemoveAsync(preference, cancellationToken);
@@ -52,7 +51,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 
 		if (preference == null)
 		{
-			throw new BusinessLogicException("Preference with this id does not exist");
+			throw new KeyNotFoundException("Preference with this id does not exist");
 		}
 
 		var preferenceModel = _mapper.Map<PreferenceModel>(preference);
@@ -66,7 +65,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 
 		if (preference == null)
 		{
-			throw new BusinessLogicException("Preference does not exist");
+			throw new KeyNotFoundException("Preference does not exist");
 		}
 
 		_mapper.Map(model, preference);

@@ -14,7 +14,13 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 		}
 		catch (Exception ex)
 		{
-			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+			var statusCode = ex switch
+			{
+				KeyNotFoundException => HttpStatusCode.NotFound,
+				_ => HttpStatusCode.InternalServerError
+			};
+
+			context.Response.StatusCode = (int)statusCode;
 
 			var errorDetails = new ErrorDetails
 			{

@@ -70,13 +70,13 @@ public class ProfileServiceTests
 	}
 
 	[Fact]
-	public async Task DeleteAsync_ShouldThrowBusinessLogicException_WhenProfileDoesNotExist()
+	public async Task DeleteAsync_ShouldThrowKeyNotFoundException_WhenProfileDoesNotExist()
 	{
 		var id = Guid.NewGuid();
 
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		await Should.ThrowAsync<BusinessLogicException>(
+		await Should.ThrowAsync<KeyNotFoundException>(
 			async () => await _profileService.DeleteAsync(id, default));
 
 		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
@@ -104,7 +104,7 @@ public class ProfileServiceTests
 
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		await Should.ThrowAsync<BusinessLogicException>(
+		await Should.ThrowAsync<KeyNotFoundException>(
 			async () => await _profileService.UpdateAsync(id, updateProfileModel, default));
 
 		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
@@ -160,7 +160,7 @@ public class ProfileServiceTests
 
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		await Should.ThrowAsync<BusinessLogicException>(
+		await Should.ThrowAsync<KeyNotFoundException>(
 			async () => await _profileService.GetByIdAsync(id, default));
 
 		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
