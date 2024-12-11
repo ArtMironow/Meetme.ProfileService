@@ -15,7 +15,7 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task CreateAsync_CreatesProfile(CreateProfileViewModel viewModel)
+	public async Task CreateAsync_CreatesProfile_WhenProfileIsValid(CreateProfileViewModel viewModel)
 	{
 		var response = await httpClient.PostAsJsonAsync(EndPointKeys.Profiles, viewModel, default);
 
@@ -23,7 +23,7 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task CreateAsync_ReturnsBadRequest(CreateProfileViewModel invalidViewModel)
+	public async Task CreateAsync_ReturnsBadRequest_WhenProfileIsNotValid(CreateProfileViewModel invalidViewModel)
 	{
 		invalidViewModel.Name = string.Empty;
 
@@ -33,16 +33,14 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task GetAllAsync_ReturnsProfiles(IEnumerable<ProfileEntity> profileEntities)
+	public async Task GetAllAsync_ReturnsProfiles_WhenProfilesExist(IEnumerable<ProfileEntity> profileEntities)
 	{
 		var profileCount = profileEntities.Count();
 
 		foreach (var profileEntity in profileEntities)
 		{
-			await dbContext.Set<ProfileEntity>().AddAsync(profileEntity, default);
+			await PopulateProfile(profileEntity);
 		}
-
-		await dbContext.SaveChangesAsync();
 
 		var response = await httpClient.GetAsync(EndPointKeys.Profiles);
 
@@ -53,10 +51,9 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task GetByIdAsync_ReturnsProfile(ProfileEntity profileEntity)
+	public async Task GetByIdAsync_ReturnsProfile_WhenProfileExists(ProfileEntity profileEntity)
 	{
-		await dbContext.Set<ProfileEntity>().AddAsync(profileEntity, default);
-		await dbContext.SaveChangesAsync();
+		await PopulateProfile(profileEntity);
 
 		var response = await httpClient.GetAsync(EndPointKeys.Profiles + $"/{profileEntity.Id}");
 
@@ -65,9 +62,9 @@ public class ProfilesControllerTests : BaseIntegrationTest
 		var responseContent = await response.Content.ReadFromJsonAsync<ProfileViewModel>();
 		responseContent?.Name.ShouldBe(profileEntity.Name);
 	}
-	
+
 	[Fact]
-	public async Task GetByIdAsync_ReturnsNotFound()
+	public async Task GetByIdAsync_ReturnsNotFound_WhenProfileDoesNotExist()
 	{
 		var invalidId = Guid.NewGuid();
 
@@ -77,7 +74,7 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task UpdateAsync_ReturnsNotFound(UpdateProfileViewModel updateProfileViewModel)
+	public async Task UpdateAsync_ReturnsNotFound_WhenProfileDoesNotExist(UpdateProfileViewModel updateProfileViewModel)
 	{
 		var invalidId = Guid.NewGuid();
 
@@ -87,10 +84,9 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task UpdateAsync_UpdatesProfile(UpdateProfileViewModel updateProfileViewModel, ProfileEntity profileEntity)
+	public async Task UpdateAsync_UpdatesProfile_WhenProfileExists(UpdateProfileViewModel updateProfileViewModel, ProfileEntity profileEntity)
 	{
-		await dbContext.Set<ProfileEntity>().AddAsync(profileEntity, default);
-		await dbContext.SaveChangesAsync();
+		await PopulateProfile(profileEntity);
 
 		var response = await httpClient.PutAsJsonAsync(EndPointKeys.Profiles + $"/{profileEntity.Id}", updateProfileViewModel, default);
 
@@ -98,7 +94,7 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Fact]
-	public async Task DeleteAsync_ReturnsNotFound()
+	public async Task DeleteAsync_ReturnsNotFound_WhenProfileDoesNotExist()
 	{
 		var invalidId = Guid.NewGuid();
 
@@ -108,13 +104,18 @@ public class ProfilesControllerTests : BaseIntegrationTest
 	}
 
 	[Theory, OmitOnRecursionAutoData]
-	public async Task DeleteAsync_DeletesProfile(ProfileEntity profileEntity)
+	public async Task DeleteAsync_DeletesProfile_WhenProfileExists(ProfileEntity profileEntity)
 	{
-		await dbContext.Set<ProfileEntity>().AddAsync(profileEntity, default);
-		await dbContext.SaveChangesAsync();
+		await PopulateProfile(profileEntity);
 
 		var response = await httpClient.DeleteAsync(EndPointKeys.Profiles + $"/{profileEntity.Id}");
 
 		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+	}
+
+	private async Task PopulateProfile(ProfileEntity profileEntity)
+	{
+		await dbContext.Set<ProfileEntity>().AddAsync(profileEntity, default);
+		await dbContext.SaveChangesAsync();
 	}
 }

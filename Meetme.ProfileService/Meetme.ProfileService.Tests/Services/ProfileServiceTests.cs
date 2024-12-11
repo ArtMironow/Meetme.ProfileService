@@ -76,7 +76,7 @@ public class ProfileServiceTests
 
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		await Should.ThrowAsync<KeyNotFoundException>(
+		await Should.ThrowAsync<EntityNotFoundException>(
 			async () => await _profileService.DeleteAsync(id, default));
 
 		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
@@ -104,7 +104,7 @@ public class ProfileServiceTests
 
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		await Should.ThrowAsync<KeyNotFoundException>(
+		await Should.ThrowAsync<EntityNotFoundException>(
 			async () => await _profileService.UpdateAsync(id, updateProfileModel, default));
 
 		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
@@ -160,7 +160,7 @@ public class ProfileServiceTests
 
 		_profileRepositoryMock.GetByIdAsync(id, default).ReturnsNull();
 
-		await Should.ThrowAsync<KeyNotFoundException>(
+		await Should.ThrowAsync<EntityNotFoundException>(
 			async () => await _profileService.GetByIdAsync(id, default));
 
 		await _profileRepositoryMock.Received(1).GetByIdAsync(id, default);
