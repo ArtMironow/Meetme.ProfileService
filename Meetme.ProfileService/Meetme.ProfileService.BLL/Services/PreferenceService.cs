@@ -4,6 +4,7 @@ using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Meetme.ProfileService.BLL.Services;
 
@@ -11,11 +12,13 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 {
 	private readonly IRepository<PreferenceEntity> _repository;
 	private readonly IMapper _mapper;
+	private readonly ILogger<PreferenceService> _logger;
 
-	public PreferenceService(IRepository<PreferenceEntity> repository, IMapper mapper)
+	public PreferenceService(IRepository<PreferenceEntity> repository, IMapper mapper, ILogger<PreferenceService> logger)
 	{
 		_repository = repository;
 		_mapper = mapper;
+		_logger = logger;
 	}
 
 	public Task AddAsync(CreatePreferenceModel model, CancellationToken cancellationToken)
@@ -31,6 +34,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 
 		if (preference == null)
 		{
+			_logger.LogWarning("Preference with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Preference with this id does not exist");
 		}
 
@@ -52,6 +56,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 
 		if (preference == null)
 		{
+			_logger.LogWarning("Preference with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Preference with this id does not exist");
 		}
 
@@ -66,6 +71,7 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 
 		if (preference == null)
 		{
+			_logger.LogWarning("Preference with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Preference does not exist");
 		}
 

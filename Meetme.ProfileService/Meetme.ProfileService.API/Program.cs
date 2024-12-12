@@ -1,7 +1,11 @@
 using Meetme.ProfileService.API;
 using Meetme.ProfileService.API.Middlewares;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+    loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddApiLayer(builder.Configuration);
 
@@ -14,6 +18,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<LoggingMiddleware>();
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
 
