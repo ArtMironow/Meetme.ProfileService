@@ -4,6 +4,7 @@ using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Meetme.ProfileService.BLL.Services;
 
@@ -11,11 +12,13 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 {
 	private readonly IRepository<ProfileEntity> _repository;
 	private readonly IMapper _mapper;
+	private readonly ILogger<ProfileService> _logger;
 
-	public ProfileService(IRepository<ProfileEntity> repository, IMapper mapper)
+	public ProfileService(IRepository<ProfileEntity> repository, IMapper mapper, ILogger<ProfileService> logger)
 	{
 		_repository = repository;
 		_mapper = mapper;
+		_logger = logger;
 	}
 
 	public async Task AddAsync(CreateProfileModel model, CancellationToken cancellationToken)
@@ -26,6 +29,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (identityProfile != null)
 		{
+			_logger.LogWarning("Profile for identity with Id = {IdentityId} already exists", model.IdentityId);
 			throw new BusinessLogicException("Profile for this identity already exists");
 		}
 
@@ -38,6 +42,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (profile == null)
 		{
+			_logger.LogWarning("Profile with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Profile with this id does not exist");
 		}
 
@@ -59,6 +64,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (profile == null)
 		{
+			_logger.LogWarning("Profile with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Profile with this id does not exist");
 		}
 
@@ -73,6 +79,7 @@ public class ProfileService : IGenericService<ProfileModel, CreateProfileModel, 
 
 		if (profile == null)
 		{
+			_logger.LogWarning("Profile with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Profile does not exist");
 		}
 

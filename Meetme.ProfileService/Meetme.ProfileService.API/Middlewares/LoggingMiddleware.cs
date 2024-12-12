@@ -15,41 +15,12 @@ public class LoggingMiddleware
 
 	public async Task InvokeAsync(HttpContext context)
 	{
-		try
-		{
-			_logger.Information("Handling request: {Method} {Path}",
-				context.Request.Method, context.Request.Path);
+		_logger.Information("Handling request: {Method} {Path}",
+			context.Request.Method, context.Request.Path);
 
-			await _next(context);
+		await _next(context);
 
-			var statusCode = context.Response.StatusCode;
-
-			LogResponse(context, statusCode);
-			
-		}
-		catch (Exception exception)
-		{
-			_logger.Error(exception, "Unhandled exception occurred while processing {Method} {Path}",
-				context.Request.Method, context.Request.Path);
-		}
-	}
-
-	private void LogResponse(HttpContext context, int statusCode)
-	{
-		if (statusCode >= 500)
-		{
-			_logger.Error("Server error with {StatusCode} status code for {Method} {Path}",
-				statusCode, context.Request.Method, context.Request.Path);
-		}
-		else if (statusCode >= 400)
-		{
-			_logger.Warning("Client error with {StatusCode} status code for {Method} {Path}",
-				statusCode, context.Request.Method, context.Request.Path);
-		}
-		else
-		{
-			_logger.Information("Successfully handeled request with {StatusCode} status code for {Method} {Path}",
-				statusCode, context.Request.Method, context.Request.Path);
-		}
+		_logger.Information("Handled request: {Method} {Path} with {StatusCode}",
+			context.Request.Method, context.Request.Path, context.Response.StatusCode);
 	}
 }

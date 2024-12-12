@@ -4,6 +4,7 @@ using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Meetme.ProfileService.BLL.Services;
 
@@ -11,11 +12,13 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 {
 	private readonly IRepository<PhotoEntity> _repository;
 	private readonly IMapper _mapper;
+	private readonly ILogger<PhotoService> _logger;
 
-	public PhotoService(IRepository<PhotoEntity> repository, IMapper mapper)
+	public PhotoService(IRepository<PhotoEntity> repository, IMapper mapper, ILogger<PhotoService> logger)
 	{
 		_repository = repository;
 		_mapper = mapper;
+		_logger = logger;
 	}
 
 	public Task AddAsync(CreatePhotoModel model, CancellationToken cancellationToken)
@@ -31,6 +34,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
+			_logger.LogWarning("Photo with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Photo with this id does not exist");
 		}
 
@@ -52,6 +56,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
+			_logger.LogWarning("Photo with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Photo with this id does not exist");
 		}
 
@@ -66,6 +71,7 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 
 		if (photo == null)
 		{
+			_logger.LogWarning("Photo with ID = {Id} was not found", id);
 			throw new EntityNotFoundException("Photo does not exist");
 		}
 

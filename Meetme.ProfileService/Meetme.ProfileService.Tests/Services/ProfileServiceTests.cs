@@ -5,6 +5,7 @@ using Meetme.ProfileService.BLL.Exceptions;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Shouldly;
@@ -27,7 +28,9 @@ public class ProfileServiceTests
 
 		_mapper = new Mapper(config);
 
-		_profileService = new BLL.Services.ProfileService(_profileRepositoryMock, _mapper);
+		var logger = Substitute.For<ILogger<BLL.Services.ProfileService>>();
+
+		_profileService = new BLL.Services.ProfileService(_profileRepositoryMock, _mapper, logger);
 	}
 
 	[Theory, OmitOnRecursionAutoData]
