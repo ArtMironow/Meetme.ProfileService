@@ -9,7 +9,7 @@ on:
 
 env:
   CONFIGURATION: Release
-  TESTS_DIRECTORY: ./Meetme.ProfileService/Meetme.ProfileService.Tests/Meetme.ProfileService.Tests.csproj
+  TESTS_DIRECTORY: ./Meetme.ProfileService/Meetme.ProfileService.Tests
   SOLUTION-FILE-PATH: ./Meetme.ProfileService/Meetme.ProfileService.sln
   DOTNET_VERSION: '8.0.x'
 
