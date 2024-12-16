@@ -1,0 +1,40 @@
+name: CI pipeline
+
+on:      
+  pull_request:
+    branches:
+      [main]
+    types:
+      [opened, synchronize, reopened]
+
+env:
+  CONFIGURATION: Release
+  TESTS_DIRECTORY: ./Meetme.ProfileService
+  SOLUTION-FILE-PATH: ./Meetme.ProfileService/Meetme.ProfileService.sln
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION-FILE-PATH }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION-FILE-PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore
+
+      - name: Test
+        working-directory: ${{ env.TESTS_DIRECTORY }}
+        run: dotnet test --configuration ${{ env.CONFIGURATION }} --no-build
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v4.0.0
+        
