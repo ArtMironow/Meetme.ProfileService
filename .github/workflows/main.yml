@@ -42,5 +42,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         with:
           args:
-            -Dsonar.organization=Meetme.ProfileService
+            -Dsonar.organization=meetme-profileservice
             -Dsonar.projectKey=meetme_profile_service
