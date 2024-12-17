@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<CorrelationIdMiddleware>();
+
 app.UseMiddleware<LoggingMiddleware>();
 
 app.UseSerilogRequestLogging();

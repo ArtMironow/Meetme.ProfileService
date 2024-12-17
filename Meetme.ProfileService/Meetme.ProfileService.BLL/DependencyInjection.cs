@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Mapster;
+﻿using Mapster;
 using MapsterMapper;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
