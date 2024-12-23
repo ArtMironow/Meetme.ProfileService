@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  profile-service-api:
+    container_name: profile-service-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5133:5133"
+    depends_on:
+      - profile-service-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: on-failure
+
+  profile-service-db:
+    container_name: profile-service-db
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=profileServiceDb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
