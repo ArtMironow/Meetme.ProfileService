@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Meetme.ProfileService.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +17,11 @@ namespace Meetme.ProfileService.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IdentityId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     Age = table.Column<int>(type: "integer", nullable: false),
-                    Bio = table.Column<string>(type: "text", nullable: false),
+                    Bio = table.Column<string>(type: "text", nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: false),
-                    Location = table.Column<string>(type: "text", nullable: false),
+                    Location = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -36,7 +36,7 @@ namespace Meetme.ProfileService.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PhotoUrl = table.Column<string>(type: "text", nullable: false),
+                    PhotoUrl = table.Column<string>(type: "text", nullable: true),
                     IsProfilePicture = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

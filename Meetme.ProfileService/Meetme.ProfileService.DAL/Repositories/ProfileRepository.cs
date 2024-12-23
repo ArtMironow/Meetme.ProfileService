@@ -13,7 +13,7 @@ public class ProfileRepository : Repository<ProfileEntity>, IRepository<ProfileE
 
 	public override async Task<ProfileEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
-		var profile = await DbContext.Profiles
+		var profile = await DbContext.Profiles!
 			.Include(p => p.Preference)
 			.Include(p => p.Photos)
 			.SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
@@ -23,7 +23,7 @@ public class ProfileRepository : Repository<ProfileEntity>, IRepository<ProfileE
 
 	public override async Task<IEnumerable<ProfileEntity>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		return await DbContext.Profiles
+		return await DbContext.Profiles!
 			.Include(p => p.Preference)
 			.Include(p => p.Photos)
 			.ToListAsync(cancellationToken);
