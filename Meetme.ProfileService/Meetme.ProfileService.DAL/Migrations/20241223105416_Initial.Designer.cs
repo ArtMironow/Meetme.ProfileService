@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Meetme.ProfileService.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241125112633_Init")]
-    partial class Init
+    [Migration("20241223105416_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Meetme.ProfileService.DAL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Photo", b =>
+            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.PhotoEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,6 @@ namespace Meetme.ProfileService.DAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("PhotoUrl")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("ProfileId")
@@ -54,7 +53,7 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.ToTable("Photos");
                 });
 
-            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Preference", b =>
+            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.PreferenceEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +88,7 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.ToTable("Preferences");
                 });
 
-            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Profile", b =>
+            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.ProfileEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +98,6 @@ namespace Meetme.ProfileService.DAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -112,11 +110,9 @@ namespace Meetme.ProfileService.DAL.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -127,9 +123,9 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Photo", b =>
+            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.PhotoEntity", b =>
                 {
-                    b.HasOne("Meetme.ProfileService.DAL.Entities.Profile", "Profile")
+                    b.HasOne("Meetme.ProfileService.DAL.Entities.ProfileEntity", "Profile")
                         .WithMany("Photos")
                         .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -138,23 +134,22 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Preference", b =>
+            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.PreferenceEntity", b =>
                 {
-                    b.HasOne("Meetme.ProfileService.DAL.Entities.Profile", "Profile")
+                    b.HasOne("Meetme.ProfileService.DAL.Entities.ProfileEntity", "Profile")
                         .WithOne("Preference")
-                        .HasForeignKey("Meetme.ProfileService.DAL.Entities.Preference", "ProfileId")
+                        .HasForeignKey("Meetme.ProfileService.DAL.Entities.PreferenceEntity", "ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.Profile", b =>
+            modelBuilder.Entity("Meetme.ProfileService.DAL.Entities.ProfileEntity", b =>
                 {
                     b.Navigation("Photos");
 
-                    b.Navigation("Preference")
-                        .IsRequired();
+                    b.Navigation("Preference");
                 });
 #pragma warning restore 612, 618
         }
