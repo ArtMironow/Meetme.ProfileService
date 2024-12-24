@@ -5,7 +5,6 @@ using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Meetme.ProfileService.BLL.Services;
 
