@@ -21,5 +21,16 @@ services:
       - POSTGRES_DB=profileServiceDb
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/profile-service-db:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+  
+  profile-service-seq:
+    image: datalust/seq:latest
+    container_name: profile-service-seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+     - 5341:5341
+     - 8081:80

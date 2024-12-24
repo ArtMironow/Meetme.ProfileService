@@ -21,11 +21,16 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 		_logger = logger;
 	}
 
-	public Task AddAsync(CreatePhotoModel model, CancellationToken cancellationToken)
+	public async Task AddAsync(CreatePhotoModel model, CancellationToken cancellationToken)
 	{
+		if (model.IsProfilePicture == true)
+		{
+			await UpdateProfilePicture(model.ProfileId, cancellationToken);
+		}
+
 		var photo = _mapper.Map<PhotoEntity>(model);
 
-		return _repository.AddAsync(photo, cancellationToken);
+		await _repository.AddAsync(photo, cancellationToken);
 	}
 
 	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -75,8 +80,26 @@ public class PhotoService : IGenericService<PhotoModel, CreatePhotoModel, Update
 			throw new EntityNotFoundException("Photo does not exist");
 		}
 
+		if (model.IsProfilePicture == true)
+		{
+			await UpdateProfilePicture(photo.ProfileId, cancellationToken);
+		}
+		
 		_mapper.Map(model, photo);
 
 		await _repository.UpdateAsync(photo, cancellationToken);
+	}
+
+	private async Task UpdateProfilePicture(Guid id, CancellationToken cancellationToken)
+	{
+		var profilePicturePhoto =
+			await _repository.GetFirstOrDefaultAsync(p => p.ProfileId == id && p.IsProfilePicture == true, cancellationToken);
+
+		if (profilePicturePhoto != null)
+		{
+			profilePicturePhoto.IsProfilePicture = false;
+
+			await _repository.UpdateAsync(profilePicturePhoto, cancellationToken);
+		}
 	}
 }

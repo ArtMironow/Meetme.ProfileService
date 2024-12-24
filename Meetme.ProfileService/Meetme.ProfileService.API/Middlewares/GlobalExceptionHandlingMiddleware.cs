@@ -1,7 +1,6 @@
 ﻿using Meetme.ProfileService.API.Errors;
 using Meetme.ProfileService.BLL.Exceptions;
 using System.Net;
-using System.Text.Json;
 
 namespace Meetme.ProfileService.API.Middlewares;
 
@@ -29,9 +28,7 @@ public class GlobalExceptionHandlingMiddleware : IMiddleware
 				ErrorMessage = ex.Message
 			};
 
-			var responseJson = JsonSerializer.Serialize(errorDetails);
-
-			await context.Response.WriteAsJsonAsync(responseJson);
+			await context.Response.WriteAsJsonAsync(errorDetails);
 		}
 	}
 }
