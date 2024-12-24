@@ -5,6 +5,7 @@ using Meetme.ProfileService.BLL.Models.PreferenceModels;
 using Meetme.ProfileService.DAL.Entities;
 using Meetme.ProfileService.DAL.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Meetme.ProfileService.BLL.Services;
 
@@ -21,11 +22,19 @@ public class PreferenceService : IGenericService<PreferenceModel, CreatePreferen
 		_logger = logger;
 	}
 
-	public Task AddAsync(CreatePreferenceModel model, CancellationToken cancellationToken)
+	public async Task AddAsync(CreatePreferenceModel model, CancellationToken cancellationToken)
 	{
+		var profilePreference = await _repository.GetFirstOrDefaultAsync(p => p.ProfileId == model.ProfileId, cancellationToken);
+
+		if (profilePreference != null)
+		{
+			_logger.LogWarning("Preference for profile with Id = {ProfileId} already exists", model.ProfileId);
+			throw new BusinessLogicException("Preference for this profile already exists");
+		}
+
 		var preference = _mapper.Map<PreferenceEntity>(model);
 
-		return _repository.AddAsync(preference, cancellationToken);
+		await _repository.AddAsync(preference, cancellationToken);
 	}
 
 	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
