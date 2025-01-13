@@ -3,12 +3,14 @@ using Meetme.ProfileService.API.Common.Routes;
 using Meetme.ProfileService.API.ViewModels.ProfileViewModels;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.ProfileModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meetme.ProfileService.API.Controllers;
 
 [Route(BaseRoutes.Profiles)]
 [ApiController]
+[Authorize]
 public class ProfilesController : ControllerBase
 {
 	private readonly IGenericService<ProfileModel, CreateProfileModel, UpdateProfileModel> _profileService;

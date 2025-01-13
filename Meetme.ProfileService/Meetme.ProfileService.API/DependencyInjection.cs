@@ -6,6 +6,7 @@ using Meetme.ProfileService.API.Middlewares;
 using Meetme.ProfileService.BLL;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Meetme.ProfileService.API.Extensions;
 
 namespace Meetme.ProfileService.API;
 
@@ -24,6 +25,9 @@ public static class DependencyInjection
 
 		services.AddFluentValidationAutoValidation();
 		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+		services.ConfigureAuth();
+		services.AddAuthorization();
 
 		services.AddBusinessLogicLayer(configuration);
 

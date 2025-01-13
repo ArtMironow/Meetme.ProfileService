@@ -3,12 +3,14 @@ using Meetme.ProfileService.API.Common.Routes;
 using Meetme.ProfileService.API.ViewModels.PhotoViewModels;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PhotoModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meetme.ProfileService.API.Controllers;
 
 [Route(BaseRoutes.Photos)]
 [ApiController]
+[Authorize]
 public class PhotosController : ControllerBase
 {
 	private readonly IGenericService<PhotoModel, CreatePhotoModel, UpdatePhotoModel> _photoService;

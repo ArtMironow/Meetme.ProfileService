@@ -25,6 +25,7 @@ app.UseMiddleware<LoggingMiddleware>();
 
 app.UseSerilogRequestLogging();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
