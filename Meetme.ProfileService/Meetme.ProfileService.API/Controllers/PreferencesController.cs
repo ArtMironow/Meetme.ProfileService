@@ -3,12 +3,14 @@ using Meetme.ProfileService.API.Common.Routes;
 using Meetme.ProfileService.API.ViewModels.PreferenceViewModels;
 using Meetme.ProfileService.BLL.Interfaces;
 using Meetme.ProfileService.BLL.Models.PreferenceModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meetme.ProfileService.API.Controllers;
 
 [Route(BaseRoutes.Preferences)]
 [ApiController]
+[Authorize]
 public class PreferencesController : ControllerBase
 {
 	private readonly IGenericService<PreferenceModel, CreatePreferenceModel, UpdatePreferenceModel> _preferenceService;

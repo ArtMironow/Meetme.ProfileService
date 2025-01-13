@@ -5,7 +5,11 @@ using MapsterMapper;
 using Meetme.ProfileService.API.Middlewares;
 using Meetme.ProfileService.BLL;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
+using Meetme.ProfileService.API.Common.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Meetme.ProfileService.API;
 
@@ -25,6 +29,9 @@ public static class DependencyInjection
 		services.AddFluentValidationAutoValidation();
 		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+		services.ConfigureAuth();
+		services.AddAuthorization();
+
 		services.AddBusinessLogicLayer(configuration);
 
 		services.AddTransient<GlobalExceptionHandlingMiddleware>();
@@ -40,6 +47,22 @@ public static class DependencyInjection
 		services.AddSingleton(config);
 
 		services.AddScoped<IMapper, ServiceMapper>();
+
+		return services;
+	}
+
+	private static IServiceCollection ConfigureAuth(this IServiceCollection services)
+	{
+		services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer(options =>
+			{
+				options.Authority = AuthKeys.Authority;
+				options.Audience = AuthKeys.Audience;
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					NameClaimType = ClaimTypes.NameIdentifier
+				};
+			});
 
 		return services;
 	}
