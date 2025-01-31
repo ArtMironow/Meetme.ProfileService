@@ -4,7 +4,7 @@ namespace Meetme.ProfileService.DAL.Entities;
 
 public class ProfileEntity : BaseEntity
 {
-	public Guid IdentityId { get; set; }
+	public required string IdentityId { get; set; }
 	public string? Name { get; set; }
 	public int Age { get; set; }
 	public string? Bio { get; set; }

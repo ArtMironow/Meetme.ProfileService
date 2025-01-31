@@ -103,8 +103,9 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("IdentityId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Location")
                         .HasColumnType("text");

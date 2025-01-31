@@ -6,7 +6,7 @@ namespace Meetme.ProfileService.API.ViewModels.ProfileViewModels;
 
 public class CreateProfileViewModel
 {
-	public Guid IdentityId { get; set; }
+	public required string IdentityId { get; set; }
 	public string? Name { get; set; }
 	public int Age { get; set; }
 	public string? Bio { get; set; }

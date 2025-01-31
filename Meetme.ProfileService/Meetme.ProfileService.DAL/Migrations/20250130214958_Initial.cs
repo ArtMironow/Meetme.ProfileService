@@ -16,7 +16,7 @@ namespace Meetme.ProfileService.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdentityId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdentityId = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Age = table.Column<int>(type: "integer", nullable: false),
                     Bio = table.Column<string>(type: "text", nullable: true),

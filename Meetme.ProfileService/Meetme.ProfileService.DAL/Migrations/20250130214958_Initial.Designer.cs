@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Meetme.ProfileService.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241223105416_Initial")]
+    [Migration("20250130214958_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -106,8 +106,9 @@ namespace Meetme.ProfileService.DAL.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("IdentityId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Location")
                         .HasColumnType("text");

@@ -6,7 +6,7 @@ namespace Meetme.ProfileService.BLL.Models.ProfileModels;
 
 public class CreateProfileModel
 {
-	public Guid IdentityId { get; set; }
+	public required string IdentityId { get; set; }
 	public string? Name { get; set; }
 	public int Age { get; set; }
 	public string? Bio { get; set; }
